@@ -10,6 +10,10 @@ public class CoordinacionEvento {
 	private ArrayList<Recurso> recursos;
 	
 	private static CoordinacionEvento coordinacionEventos = null;
+	
+	public static int genCodeEvento = 1;
+
+
 
 	public CoordinacionEvento() {
 		super();
@@ -32,6 +36,7 @@ public class CoordinacionEvento {
 
 	public void setEventos(ArrayList<Evento> eventos) {
 		this.eventos = eventos;
+		genCodeEvento++;
 	}
 
 	public ArrayList<Persona> getPersonas() {
@@ -70,4 +75,78 @@ public class CoordinacionEvento {
 	public void insertarFactura(Recurso recurso) {
 		recursos.add(recurso);
 	}
+	
+	
+	
+	
+	public Evento getEventoByCode(String codigo)
+	{
+		Evento eventoAux =  null;
+		for (Evento evento : eventos) {
+			if(evento.getCodigo().equalsIgnoreCase(codigo))
+				eventoAux =  evento;
+		}
+
+		return eventoAux;
+	}
+	
+	public Persona getPersonaByCedula(String cedula)
+	{
+		Persona personaAux =  null;
+		for (Persona persona : personas) {
+			if(persona.getCedula().equalsIgnoreCase(cedula))
+				personaAux =  persona;
+		}
+
+		return personaAux;
+	}
+	
+	public Persona getJuradoByCedula(String cedula)
+	{
+		Persona juradoAux =  null;
+		for (Persona persona : personas) {
+			if(persona.getCedula().equalsIgnoreCase(cedula))
+				if(persona instanceof Jurado)
+					juradoAux =  persona;
+		}
+
+		return juradoAux;
+	}
+	
+	public Persona getParticipanteByCedula(String cedula)
+	{
+		Persona participanteAux =  null;
+		for (Persona persona : personas) {
+			if(persona.getCedula().equalsIgnoreCase(cedula))
+				if(persona instanceof Participante)
+					participanteAux =  persona;
+		}
+
+		return participanteAux;
+	}
+	
+	
+	public TrabajoCientifico getTrabajoCientificoByCode(String codigo)
+	{
+		TrabajoCientifico trabajoAux =  null;
+		for (TrabajoCientifico trabajo : trabajosCientificos) {
+			if(trabajo.getCodigo().equalsIgnoreCase(codigo))
+				trabajoAux =  trabajo;
+		}
+
+		return trabajoAux;
+	}
+	
+	public Recurso getRecursoByCode(String codigo)
+	{
+		Recurso recursoAux =  null;
+		for (Recurso recurso : recursos) {
+			if(recurso.getCodigo().equalsIgnoreCase(codigo))
+				recursoAux =  recurso;
+		}
+
+		return recursoAux;
+	}
+	
+	
 }

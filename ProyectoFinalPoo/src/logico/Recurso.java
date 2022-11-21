@@ -2,6 +2,7 @@ package logico;
 
 public class Recurso {
 
+	private String codigo;
 	private String nombre;
 	private String tipo;
 	
@@ -22,6 +23,14 @@ public class Recurso {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 	
 }
