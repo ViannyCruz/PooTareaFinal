@@ -6,8 +6,9 @@ public class Recurso {
 	private String nombre;
 	private String tipo;
 	
-	public Recurso(String nombre, String tipo) {
+	public Recurso(String codigo, String nombre, String tipo) {
 		super();
+		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipo = tipo;
 	}
