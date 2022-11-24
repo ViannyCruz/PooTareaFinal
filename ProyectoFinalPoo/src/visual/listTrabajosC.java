@@ -11,9 +11,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.TrabajoCientifico;
-import logico.CoordinacionEvento; 
+import logico.CoordinacionEvento;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class listTrabajosC extends JDialog {
 
@@ -43,7 +51,7 @@ public class listTrabajosC extends JDialog {
 	 * Create the dialog.
 	 */
 	public listTrabajosC() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -53,10 +61,28 @@ public class listTrabajosC extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
+				model = new DefaultTableModel();
+				String[] columnas = {"Codigo", "Nombre", "Fecha"};
+				model.setColumnIdentifiers(columnas);
 				scrollPane = new JScrollPane();
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
+					table.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							int rowSelected = -1;
+							rowSelected = table.getSelectedRow();
+							if(rowSelected>=0){
+								btnRevisado.setEnabled(true);
+								selected = CoordinacionEvento.getInstance().getTrabajoCientificoByCode(table.getValueAt(rowSelected, 0).toString());
+
+							}
+						}
+					});
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					table.setModel(model);
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -66,17 +92,40 @@ public class listTrabajosC extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Revisado");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadTrabajos();
 	}
 
+	public static void loadTrabajos() {
+		model.setRowCount(0);
+		rows = new Object[model.getColumnCount()];
+		for (TrabajoCientifico trabajo :  CoordinacionEvento.getInstance().getTrabajosCientificos()) {
+
+			rows[0] = trabajo.getCodigo();
+			rows[1]	= trabajo.getNombre();
+			rows[2] = trabajo.getFecha();	
+			model.addRow(rows);
+		}
+
+	}
 }
