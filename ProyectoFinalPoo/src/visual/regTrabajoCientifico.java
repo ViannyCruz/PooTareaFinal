@@ -128,6 +128,11 @@ public class regTrabajoCientifico extends JDialog {
 			}
 			{
 				cancelButton = new JButton("Registrar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

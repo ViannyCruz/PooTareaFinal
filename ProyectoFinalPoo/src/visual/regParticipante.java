@@ -156,6 +156,12 @@ public class regParticipante extends JDialog {
 			}
 			{
 				cancelButton = new JButton("Registrar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

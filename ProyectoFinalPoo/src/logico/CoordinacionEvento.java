@@ -47,6 +47,10 @@ public class CoordinacionEvento {
 		this.personas = personas;
 	}
 
+	public void addPersona(Persona persona) {
+		personas.add(persona);
+	}
+	
 	public ArrayList<TrabajoCientifico> getTrabajosCientificos() {
 		return trabajosCientificos;
 	}

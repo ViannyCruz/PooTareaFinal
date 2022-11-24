@@ -14,6 +14,8 @@ import logico.TrabajoCientifico;
 import logico.CoordinacionEvento; 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class listTrabajosC extends JDialog {
 
@@ -73,6 +75,10 @@ public class listTrabajosC extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -80,3 +86,26 @@ public class listTrabajosC extends JDialog {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

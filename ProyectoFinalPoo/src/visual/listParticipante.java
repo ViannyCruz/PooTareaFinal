@@ -33,6 +33,9 @@ public class listParticipante extends JDialog {
 	private Persona selected = null;
 	private JButton btnRevisado;
 
+	Participante participanteAux =  null;
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +53,11 @@ public class listParticipante extends JDialog {
 	 * Create the dialog.
 	 */
 	public listParticipante() {
+		
+		participanteAux = new Participante("402-1230923-0", "Juan Gomez", "12345678");
+		CoordinacionEvento.getInstance().addPersona(participanteAux);
+		
+		
 		setTitle("Lista de personas");
 		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());
@@ -93,13 +101,7 @@ public class listParticipante extends JDialog {
 				buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 				getContentPane().add(buttonPane, BorderLayout.SOUTH);
 				{
-					JButton okButton = new JButton("OK");
-					okButton.setActionCommand("OK");
-					buttonPane.add(okButton);
-					getRootPane().setDefaultButton(okButton);
-				}
-				{
-					JButton cancelButton = new JButton("Cancel");
+					JButton cancelButton = new JButton("Aceptar");
 					cancelButton.setActionCommand("Cancel");
 					buttonPane.add(cancelButton);
 				}
