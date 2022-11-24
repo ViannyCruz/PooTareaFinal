@@ -21,6 +21,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class listParticipante extends JDialog {
 
@@ -88,49 +90,58 @@ public class listParticipante extends JDialog {
 								selected = CoordinacionEvento.getInstance().getPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
 
 							}
-							}
-						});
+						}
+					});
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					table.setModel(model);
 					scrollPane.setViewportView(table);
-					}
 				}
+			}
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("Revisado");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JPanel buttonPane = new JPanel();
-				buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				getContentPane().add(buttonPane, BorderLayout.SOUTH);
-				{
-					JButton cancelButton = new JButton("Aceptar");
-					cancelButton.setActionCommand("Cancel");
-					buttonPane.add(cancelButton);
-				}
+
 			}
-			
-			loadPersonas();
 		}
+
+		loadPersonas();
+	}
 
 	public static void loadPersonas() {
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
 		for (Persona persona :  CoordinacionEvento.getInstance().getPersonas()) {
-		if(persona instanceof Jurado) {
-			rows[0] = persona.getCedula();
-			rows[1]	= persona.getNombre();
-			rows[2] = persona.getNumero();	
-			rows[3] = ((Jurado) persona).getEspecialidad();
-			model.addRow(rows);
-		}
-		if(persona instanceof Participante)
-		{
-			rows[0] = persona.getCedula();
-			rows[1]	= persona.getNombre();
-			rows[2] = persona.getNumero();	
-			rows[4] = ((Participante) persona).GetCodTrabajo();
-			model.addRow(rows);
-		}
-		
+			if(persona instanceof Jurado) {
+				rows[0] = persona.getCedula();
+				rows[1]	= persona.getNombre();
+				rows[2] = persona.getNumero();	
+				rows[3] = ((Jurado) persona).getEspecialidad();
+				model.addRow(rows);
+			}
+			if(persona instanceof Participante)
+			{
+				rows[0] = persona.getCedula();
+				rows[1]	= persona.getNombre();
+				rows[2] = persona.getNumero();	
+				rows[4] = ((Participante) persona).GetCodTrabajo();
+				model.addRow(rows);
+			}
+
 		}
 
 	}
-	}
+}
