@@ -63,6 +63,10 @@ public class CoordinacionEvento {
 		this.recursos = recursos;
 	}
 	
+	public void addRecurso(Recurso recurso) {
+		recursos.add(recurso);
+	}
+	
 	public void insertarFactura(Evento evento) {
 		eventos.add(evento);	
 	}

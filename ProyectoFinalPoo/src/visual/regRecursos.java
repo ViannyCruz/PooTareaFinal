@@ -62,12 +62,13 @@ public class regRecursos extends JDialog {
 			panel.add(lblNewLabel);
 			
 			txtCodigo = new JTextField();
+			txtCodigo.setEditable(false);
 			txtCodigo.setBounds(66, 11, 142, 20);
 			panel.add(txtCodigo);
 			txtCodigo.setColumns(10);
 			{
 				JLabel lblNewLabel_1 = new JLabel("Nombre:");
-				lblNewLabel_1.setBounds(10, 45, 46, 14);
+				lblNewLabel_1.setBounds(10, 45, 57, 14);
 				panel.add(lblNewLabel_1);
 			}
 			{
@@ -82,7 +83,7 @@ public class regRecursos extends JDialog {
 					public void removeUpdate(DocumentEvent arg0) {
 						// TODO Auto-generated method stub
 						
-						//habilitarRegistrar();
+						habilitarRegistrar();
 					}
 					
 					@Override
@@ -95,7 +96,7 @@ public class regRecursos extends JDialog {
 					@Override
 					public void changedUpdate(DocumentEvent arg0) {
 						// TODO Auto-generated method stub
-						//habilitarRegistrar();
+						habilitarRegistrar();
 
 					}
 				});
@@ -113,6 +114,29 @@ public class regRecursos extends JDialog {
 				txtTipo.setBounds(266, 11, 142, 20);
 				panel.add(txtTipo);
 				txtTipo.setColumns(10);
+				txtTipo.getDocument().addDocumentListener(new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+					}
+				});
+
+				
 			}
 		}
 		{
@@ -122,6 +146,11 @@ public class regRecursos extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();	
+					}
+				});
 				btnCancelar.setActionCommand("OK");
 				buttonPane.add(btnCancelar);
 				getRootPane().setDefaultButton(btnCancelar);
@@ -133,8 +162,9 @@ public class regRecursos extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						
 					Recurso recursoAux = new Recurso(txtCodigo.getText(), txtNombre.getText(), txtTipo.getText());
-						
-						
+					CoordinacionEvento.getInstance().addRecurso(recursoAux);
+					dispose();	
+					
 					}
 				});
 				btnRegistrar.setActionCommand("Cancel");
@@ -154,11 +184,11 @@ public class regRecursos extends JDialog {
 	
 	private void habilitarRegistrar() {
 		
-		//if(txtCodigo.getText().isEmpty() == true)
-		btnRegistrar.setEnabled(true);
-		
-		
-		
+		if(txtNombre.getText().equals("") || txtTipo.getText().equals(""))
+			btnRegistrar.setEnabled(false);
+		else
+			btnRegistrar.setEnabled(true);
+	
 	}
 	
 	
