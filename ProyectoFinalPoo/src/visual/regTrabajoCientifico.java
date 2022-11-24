@@ -14,12 +14,19 @@ import javax.swing.SpinnerDateModel;
 import java.util.Date;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class regTrabajoCientifico extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtCodigo;
+	private JTextField txtNombre;
+	private JSpinner spinAo;
+	private JSpinner spinMes;
+	private JSpinner spinDia;
+	private JButton cancelButton;
+	private JButton okButton;
 
 	/**
 	 * Launch the application.
@@ -49,73 +56,78 @@ public class regTrabajoCientifico extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
-				JLabel lblNewLabel = new JLabel("Codigo:");
-				lblNewLabel.setBounds(10, 11, 46, 14);
-				panel.add(lblNewLabel);
+				JLabel lblCodigo = new JLabel("C\u00F3digo:");
+				lblCodigo.setBounds(10, 8, 46, 20);
+				panel.add(lblCodigo);
 			}
 			{
-				textField = new JTextField();
-				textField.setEditable(false);
-				textField.setBounds(66, 8, 145, 20);
-				panel.add(textField);
-				textField.setColumns(10);
+				txtCodigo = new JTextField();
+				txtCodigo.setEditable(false);
+				txtCodigo.setBounds(66, 8, 145, 20);
+				panel.add(txtCodigo);
+				txtCodigo.setColumns(10);
 			}
 			{
-				JLabel lblNewLabel_1 = new JLabel("Nombre:");
-				lblNewLabel_1.setBounds(10, 36, 46, 14);
-				panel.add(lblNewLabel_1);
+				JLabel lblNombre = new JLabel("Nombre:");
+				lblNombre.setBounds(10, 41, 57, 20);
+				panel.add(lblNombre);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(66, 33, 284, 20);
-				panel.add(textField_1);
-				textField_1.setColumns(10);
+				txtNombre = new JTextField();
+				txtNombre.setBounds(66, 41, 284, 20);
+				panel.add(txtNombre);
+				txtNombre.setColumns(10);
 			}
 			{
-				JLabel lblNewLabel_2 = new JLabel("Fecha de publicacion:");
-				lblNewLabel_2.setBounds(10, 75, 145, 14);
-				panel.add(lblNewLabel_2);
+				JLabel lblFecPubl = new JLabel("Fecha de publicaci\u00F3n:");
+				lblFecPubl.setBounds(10, 75, 145, 14);
+				panel.add(lblFecPubl);
 			}
-			
-			JLabel lblNewLabel_3 = new JLabel("Dia:");
-			lblNewLabel_3.setBounds(10, 100, 46, 14);
-			panel.add(lblNewLabel_3);
-			
-			JSpinner spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(1, 1, 12, 1));
-			spinner.setBounds(45, 97, 63, 20);
-			panel.add(spinner);
-			
-			JLabel lblNewLabel_4 = new JLabel("Mes:");
-			lblNewLabel_4.setBounds(126, 100, 46, 14);
-			panel.add(lblNewLabel_4);
-			
-			JSpinner spinner_1 = new JSpinner();
-			spinner_1.setModel(new SpinnerNumberModel(1, 1, 12, 1));
-			spinner_1.setBounds(168, 97, 63, 20);
-			panel.add(spinner_1);
-			
+
+			JLabel lblDia = new JLabel("Dia:");
+			lblDia.setBounds(10, 100, 46, 14);
+			panel.add(lblDia);
+
+			spinDia = new JSpinner();
+			spinDia.setModel(new SpinnerNumberModel(1, 1, 12, 1));
+			spinDia.setBounds(45, 97, 63, 20);
+			panel.add(spinDia);
+
+			JLabel lblMes = new JLabel("Mes:");
+			lblMes.setBounds(126, 100, 46, 14);
+			panel.add(lblMes);
+
+			spinMes = new JSpinner();
+			spinMes.setModel(new SpinnerNumberModel(1, 1, 12, 1));
+			spinMes.setBounds(168, 97, 63, 20);
+			panel.add(spinMes);
+
 			JLabel lblAo = new JLabel("A\u00F1o:");
 			lblAo.setBounds(245, 100, 46, 14);
 			panel.add(lblAo);
-			
-			JSpinner spinner_2 = new JSpinner();
-			spinner_2.setModel(new SpinnerNumberModel(new Integer(1900), new Integer(1900), null, new Integer(1)));
-			spinner_2.setBounds(287, 97, 63, 20);
-			panel.add(spinner_2);
+
+			spinAo = new JSpinner();
+			spinAo.setModel(new SpinnerNumberModel(new Integer(1900), new Integer(1900), null, new Integer(1)));
+			spinAo.setBounds(287, 97, 63, 20);
+			panel.add(spinAo);
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Cancelar");
+				okButton = new JButton("Cancelar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Registrar");
+				cancelButton = new JButton("Registrar");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

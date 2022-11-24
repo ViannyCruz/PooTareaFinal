@@ -57,9 +57,9 @@ public class regRecursos extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
-			JLabel lblNewLabel = new JLabel("Codigo:");
-			lblNewLabel.setBounds(10, 14, 46, 14);
-			panel.add(lblNewLabel);
+			JLabel lblCodigo = new JLabel("C\u00F3digo:");
+			lblCodigo.setBounds(10, 11, 46, 20);
+			panel.add(lblCodigo);
 			
 			txtCodigo = new JTextField();
 			txtCodigo.setEditable(false);
@@ -67,9 +67,9 @@ public class regRecursos extends JDialog {
 			panel.add(txtCodigo);
 			txtCodigo.setColumns(10);
 			{
-				JLabel lblNewLabel_1 = new JLabel("Nombre:");
-				lblNewLabel_1.setBounds(10, 45, 57, 14);
-				panel.add(lblNewLabel_1);
+				JLabel lblNombre = new JLabel("Nombre:");
+				lblNombre.setBounds(10, 42, 57, 20);
+				panel.add(lblNombre);
 			}
 			{
 				txtNombre = new JTextField();
@@ -105,9 +105,9 @@ public class regRecursos extends JDialog {
 				
 			}
 			{
-				JLabel lblNewLabel_2 = new JLabel("Tipo:");
-				lblNewLabel_2.setBounds(230, 14, 46, 14);
-				panel.add(lblNewLabel_2);
+				JLabel lblTipo = new JLabel("Tipo:");
+				lblTipo.setBounds(230, 11, 46, 20);
+				panel.add(lblTipo);
 			}
 			{
 				txtTipo = new JTextField();
