@@ -48,6 +48,7 @@ public class regParticipante extends JDialog {
 		setTitle("Registro de Persona");
 		setBounds(100, 100, 508, 312);
 		getContentPane().setLayout(new BorderLayout());
+		setLocationRelativeTo(null);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
@@ -158,8 +159,8 @@ public class regParticipante extends JDialog {
 				cancelButton = new JButton("Registrar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dispose();
 
+						
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

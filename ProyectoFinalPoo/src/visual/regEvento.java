@@ -36,9 +36,6 @@ public class regEvento extends JDialog {
 	private JTextField textField_10;
 	private JTextField textField_11;
 
-	
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -56,9 +53,10 @@ public class regEvento extends JDialog {
 	 * Create the dialog.
 	 */
 	public regEvento() {
-		setBounds(100, 100, 510, 676);
+		setBounds(100, 100, 530, 700);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
@@ -67,11 +65,11 @@ public class regEvento extends JDialog {
 			panel.setLayout(null);
 			
 			JLabel lblNewLabel = new JLabel("Codigo:");
-			lblNewLabel.setBounds(10, 11, 46, 14);
+			lblNewLabel.setBounds(10, 8, 46, 20);
 			panel.add(lblNewLabel);
 			
 			JLabel lblNewLabel_1 = new JLabel("Nombre:");
-			lblNewLabel_1.setBounds(10, 39, 59, 14);
+			lblNewLabel_1.setBounds(10, 36, 59, 20);
 			panel.add(lblNewLabel_1);
 			
 			textField = new JTextField();
@@ -85,7 +83,7 @@ public class regEvento extends JDialog {
 			textField_1.setColumns(10);
 			
 			JLabel lblNewLabel_2 = new JLabel("Fecha:");
-			lblNewLabel_2.setBounds(260, 11, 46, 14);
+			lblNewLabel_2.setBounds(260, 8, 46, 20);
 			panel.add(lblNewLabel_2);
 			
 			JSpinner spinner = new JSpinner();
@@ -94,7 +92,7 @@ public class regEvento extends JDialog {
 			panel.add(spinner);
 			
 			JLabel lblNewLabel_3 = new JLabel("Tipo:");
-			lblNewLabel_3.setBounds(10, 71, 46, 14);
+			lblNewLabel_3.setBounds(10, 68, 46, 20);
 			panel.add(lblNewLabel_3);
 			
 			textField_2 = new JTextField();
@@ -103,7 +101,7 @@ public class regEvento extends JDialog {
 			textField_2.setColumns(10);
 			
 			JLabel lblNewLabel_4 = new JLabel("Tema:");
-			lblNewLabel_4.setBounds(260, 71, 46, 14);
+			lblNewLabel_4.setBounds(260, 67, 46, 20);
 			panel.add(lblNewLabel_4);
 			
 			textField_3 = new JTextField();
@@ -112,7 +110,7 @@ public class regEvento extends JDialog {
 			textField_3.setColumns(10);
 			
 			JLabel lblNewLabel_5 = new JLabel("Ubicacion:");
-			lblNewLabel_5.setBounds(10, 99, 82, 14);
+			lblNewLabel_5.setBounds(10, 96, 82, 20);
 			panel.add(lblNewLabel_5);
 			
 			textField_4 = new JTextField();
@@ -136,21 +134,21 @@ public class regEvento extends JDialog {
 			panel_1.add(btnNewButton);
 			
 			JLabel lblNewLabel_7 = new JLabel("Buscar jurado por cedula:");
-			lblNewLabel_7.setBounds(10, 11, 176, 14);
+			lblNewLabel_7.setBounds(12, 0, 176, 22);
 			panel_1.add(lblNewLabel_7);
 			
 			JButton btnNewButton_2 = new JButton("Agregar jurado");
-			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnNewButton_2.setBounds(158, 240, 117, 23);
 			panel_1.add(btnNewButton_2);
 			
 			JButton btnNewButton_3 = new JButton("Eliminar jurado");
-			btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnNewButton_3.setBounds(285, 240, 117, 23);
 			panel_1.add(btnNewButton_3);
 			
 			JLabel lblNewLabel_8 = new JLabel("Nombre:");
-			lblNewLabel_8.setBounds(158, 63, 80, 14);
+			lblNewLabel_8.setBounds(158, 60, 80, 20);
 			panel_1.add(lblNewLabel_8);
 			
 			textField_6 = new JTextField();
@@ -159,7 +157,7 @@ public class regEvento extends JDialog {
 			textField_6.setColumns(10);
 			
 			JLabel lblNewLabel_9 = new JLabel("Cedula:");
-			lblNewLabel_9.setBounds(158, 108, 46, 14);
+			lblNewLabel_9.setBounds(158, 105, 46, 20);
 			panel_1.add(lblNewLabel_9);
 			
 			textField_7 = new JTextField();
@@ -168,7 +166,7 @@ public class regEvento extends JDialog {
 			textField_7.setColumns(10);
 			
 			JLabel lblNewLabel_10 = new JLabel("Telefono:");
-			lblNewLabel_10.setBounds(158, 153, 67, 14);
+			lblNewLabel_10.setBounds(158, 149, 67, 20);
 			panel_1.add(lblNewLabel_10);
 			
 			textField_8 = new JTextField();
@@ -177,7 +175,7 @@ public class regEvento extends JDialog {
 			textField_8.setColumns(10);
 			
 			JLabel lblNewLabel_11 = new JLabel("Especialidad:");
-			lblNewLabel_11.setBounds(158, 196, 122, 14);
+			lblNewLabel_11.setBounds(158, 190, 122, 20);
 			panel_1.add(lblNewLabel_11);
 			
 			textField_9 = new JTextField();
@@ -186,8 +184,8 @@ public class regEvento extends JDialog {
 			textField_9.setColumns(10);
 			
 			JButton btnNewButton_4 = new JButton("Agregar como Moderador");
-			btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
-			btnNewButton_4.setBounds(158, 265, 244, 23);
+			btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnNewButton_4.setBounds(158, 277, 244, 23);
 			panel_1.add(btnNewButton_4);
 			
 			JLabel lblNewLabel_12 = new JLabel("Moderador Actual:");
@@ -200,11 +198,11 @@ public class regEvento extends JDialog {
 			textField_10.setColumns(10);
 			
 			JLabel lblNewLabel_13 = new JLabel("Jurados actuales");
-			lblNewLabel_13.setBounds(10, 63, 117, 14);
+			lblNewLabel_13.setBounds(10, 60, 117, 20);
 			panel_1.add(lblNewLabel_13);
 			
 			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 80, 122, 183);
+			scrollPane.setBounds(10, 80, 136, 220);
 			panel_1.add(scrollPane);
 			
 			JList list = new JList();

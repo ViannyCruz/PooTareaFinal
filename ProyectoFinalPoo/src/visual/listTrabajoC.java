@@ -11,32 +11,31 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.CoordinacionEvento;
-import logico.Recurso;
+import logico.TrabajoCientifico;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class listRecursos extends JDialog {
+public class listTrabajoC extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;
 	private static Object[] rows;
-	private Recurso selected = null;
+	private TrabajoCientifico selected = null;
 	private JButton btnRevisado;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			listRecursos dialog = new listRecursos();
+			listTrabajoC dialog = new listTrabajoC();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -47,8 +46,8 @@ public class listRecursos extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public listRecursos() {
-		setTitle("Lista de Recursos");
+	public listTrabajoC() {
+		setTitle("Lista de Trabajos Cientificos");
 		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
@@ -61,7 +60,7 @@ public class listRecursos extends JDialog {
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				model = new DefaultTableModel();
-				String[] columnas = {"Codigo", "Nombre", "Tipo"};
+				String[] columnas = {"Codigo", "Nombre", "Fecha"};
 				model.setColumnIdentifiers(columnas);
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -71,12 +70,11 @@ public class listRecursos extends JDialog {
 					table.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-
 							int rowSelected = -1;
 							rowSelected = table.getSelectedRow();
 							if(rowSelected>=0){
 								btnRevisado.setEnabled(true);
-								selected = CoordinacionEvento.getInstance().getRecursoByCode(table.getValueAt(rowSelected, 0).toString());
+								selected = CoordinacionEvento.getInstance().getTrabajoCientificoByCode(table.getValueAt(rowSelected, 0).toString());
 
 							}
 						}
@@ -113,17 +111,17 @@ public class listRecursos extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		loadRecursos();
+		loadTrabajos();
 	}
-	
-	public static void loadRecursos() {
+
+	public static void loadTrabajos() {
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-		for (Recurso recurso :  CoordinacionEvento.getInstance().getRecursos()) {
+		for (TrabajoCientifico trabajos :  CoordinacionEvento.getInstance().getTrabajosCientificos()) {
 
-			rows[0] = recurso.getCodigo();
-			rows[1]	= recurso.getNombre();
-			rows[2] = recurso.getTipo();	
+			rows[0] = trabajos.getCodigo();
+			rows[1]	= trabajos.getNombre();
+			rows[2] = trabajos.getFecha();	
 			model.addRow(rows);
 		}
 
