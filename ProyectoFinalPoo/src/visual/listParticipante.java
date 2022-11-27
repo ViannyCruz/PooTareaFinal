@@ -57,7 +57,7 @@ public class listParticipante extends JDialog {
 	public listParticipante() {
 		
 		participanteAux = new Participante("402-1230923-0", "Juan Gomez", "12345678");
-		CoordinacionEvento.getInstance().addPersona(participanteAux);
+		CoordinacionEvento.getInstance().insertarPersona(participanteAux);
 		
 		
 		setTitle("Lista de personas");

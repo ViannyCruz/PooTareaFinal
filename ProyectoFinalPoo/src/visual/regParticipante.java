@@ -1,17 +1,27 @@
 package visual;
 
 import java.awt.BorderLayout;
+
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.CoordinacionEvento;
+import logico.Jurado;
+import logico.Participante;
+import logico.Persona;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class regParticipante extends JDialog {
 
@@ -21,12 +31,10 @@ public class regParticipante extends JDialog {
 	private JTextField txtNombre;
 	private JButton cancelButton;
 	private JButton okButton;
-	private JTextField txtTipo;
-	private JTextField txtEspecialidad;
 	private JRadioButton rdbtnJurado;
 	private JRadioButton rdbtnParticipante;
-	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private JComboBox cbxEspecialidad;
 
 	/**
 	 * Launch the application.
@@ -89,56 +97,43 @@ public class regParticipante extends JDialog {
 				panel.add(txtNombre);
 				txtNombre.setColumns(10);
 			}
-			
+
 			rdbtnJurado = new JRadioButton("Jurado");
 			rdbtnJurado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					rdbtnParticipante.setSelected(false);
-					lblNewLabel_3.setVisible(true);
-					txtTipo.setVisible(true);
-					lblNewLabel_4.setVisible(true);
-					txtEspecialidad.setVisible(true);
+					lblNewLabel_4.setEnabled(true);
+					cbxEspecialidad.setEnabled(true);
 				}
 			});
 			rdbtnJurado.setSelected(true);
 			rdbtnJurado.setBounds(81, 90, 109, 23);
 			panel.add(rdbtnJurado);
-			
+
 			rdbtnParticipante = new JRadioButton("Participante");
 			rdbtnParticipante.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					rdbtnJurado.setSelected(false);
-					lblNewLabel_3.setVisible(false);
-					txtTipo.setVisible(false);
-					lblNewLabel_4.setVisible(false);
-					txtEspecialidad.setVisible(false);
+					lblNewLabel_4.setEnabled(false);
+					cbxEspecialidad.setEnabled(false);
 				}
 			});
 			rdbtnParticipante.setBounds(271, 89, 109, 23);
 			panel.add(rdbtnParticipante);
-			
+
 			JPanel panel_1 = new JPanel();
 			panel_1.setBounds(10, 122, 458, 85);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
-			
-			lblNewLabel_3 = new JLabel("Tipo:");
-			lblNewLabel_3.setBounds(12, 10, 56, 22);
-			panel_1.add(lblNewLabel_3);
-			
+
 			lblNewLabel_4 = new JLabel("Especialidad:");
-			lblNewLabel_4.setBounds(12, 53, 82, 22);
+			lblNewLabel_4.setBounds(12, 13, 82, 22);
 			panel_1.add(lblNewLabel_4);
-			
-			txtTipo = new JTextField();
-			txtTipo.setBounds(57, 10, 389, 22);
-			panel_1.add(txtTipo);
-			txtTipo.setColumns(10);
-			
-			txtEspecialidad = new JTextField();
-			txtEspecialidad.setBounds(105, 53, 341, 22);
-			panel_1.add(txtEspecialidad);
-			txtEspecialidad.setColumns(10);
+
+			cbxEspecialidad = new JComboBox();
+			cbxEspecialidad.setModel(new DefaultComboBoxModel(new String[] {"Matem\u00E1ticas", "F\u00EDsica", "Qu\u00EDmica", "Biolog\u00EDa", "Astronom\u00EDa", "Sociolog\u00EDa", "Ambiental"}));
+			cbxEspecialidad.setBounds(106, 13, 340, 22);
+			panel_1.add(cbxEspecialidad);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -159,13 +154,52 @@ public class regParticipante extends JDialog {
 				cancelButton = new JButton("Registrar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						Persona aux = null;
 
-						
+						String cedula = txtCedula.getText();
+						String nombre = txtNombre.getText();
+						String telefono = txtTelefono.getText();
+						String especialidad = cbxEspecialidad.getSelectedItem().toString();
+
+						if(rdbtnJurado.isSelected())
+						{
+							aux = new Jurado (cedula, nombre, telefono, especialidad);
+							JOptionPane.showMessageDialog(null, "Jurado creado con exito!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						}
+						if(rdbtnParticipante.isSelected())
+						{
+                            aux = new Participante (cedula, nombre, telefono);
+						int option;
+							option = JOptionPane.showConfirmDialog(null, "Participante creado con exito! Desea agregarle un Trabajo Cientifico?", "Confirmación", JOptionPane.YES_NO_OPTION);
+							if(option == JOptionPane.OK_OPTION){
+							   regTrabajoCientifico regTrabajo = new regTrabajoCientifico(aux);
+							   regTrabajo.setModal(true);
+							   regTrabajo.setVisible(true);
+							
+						}
+							}
+						CoordinacionEvento.getInstance().insertarPersona(aux);
+						clean();
+
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+	}
+	
+	private void clean() {
+		txtCedula.setText("");
+	    txtNombre.setText("");
+	    txtTelefono.setText("");
+	    cbxEspecialidad.setSelectedIndex(0);
+		rdbtnParticipante.setSelected(false);
+		rdbtnJurado.setSelected(true);
+		rdbtnParticipante.setSelected(false);
+		lblNewLabel_4.setEnabled(true);
+		cbxEspecialidad.setEnabled(true);
+		
 	}
 }

@@ -7,7 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.CoordinacionEvento;
+import logico.Participante;
+import logico.Persona;
+import logico.TrabajoCientifico;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -15,6 +22,8 @@ import java.util.Date;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class regTrabajoCientifico extends JDialog {
@@ -27,13 +36,13 @@ public class regTrabajoCientifico extends JDialog {
 	private JSpinner spinDia;
 	private JButton cancelButton;
 	private JButton okButton;
-
+	private Persona pers;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			regTrabajoCientifico dialog = new regTrabajoCientifico();
+			regTrabajoCientifico dialog = new regTrabajoCientifico(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -44,7 +53,8 @@ public class regTrabajoCientifico extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public regTrabajoCientifico() {
+	public regTrabajoCientifico(Persona aux) {
+		pers = aux;
 		setTitle("Registrar Trabajo");
 		setBounds(100, 100, 500, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -65,6 +75,7 @@ public class regTrabajoCientifico extends JDialog {
 				txtCodigo = new JTextField();
 				txtCodigo.setEditable(false);
 				txtCodigo.setBounds(66, 28, 145, 20);
+				txtCodigo.setText("Proyecto-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
 				panel.add(txtCodigo);
 				txtCodigo.setColumns(10);
 			}
@@ -131,12 +142,49 @@ public class regTrabajoCientifico extends JDialog {
 				cancelButton = new JButton("Registrar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dispose();
+						String codigo = txtCodigo.getText();
+						String nombre = txtNombre.getText();
+						int dia =  Integer.parseInt(spinDia.getValue().toString());
+						int mes =  Integer.parseInt(spinMes.getValue().toString());
+						int year = Integer.parseInt(spinAo.getValue().toString());
+
+						String fecha = dia+"/"+mes+ "/" +year;
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+						Date fech = null;
+						try {
+							fech = formatter.parse(fecha);
+							
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+
+						TrabajoCientifico auxT = new TrabajoCientifico(codigo, nombre, fech);
+						
+						CoordinacionEvento.getInstance().insertarTrabajo(auxT);
+						if(pers!=null)
+						{
+							((Participante) pers).insertarTrabajo(auxT);
+							JOptionPane.showMessageDialog(null, "Registro Satisfactorio del trabajo para el participante "+pers.getNombre()+"!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+						}
+						else {
+						JOptionPane.showMessageDialog(null, "Registro Satisfactorio del trabajo!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						}
+						clean();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	private void clean() {
+		txtCodigo.setText("Proyecto-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
+		txtNombre.setText("");
+		spinDia.setValue(new Integer("1"));
+		spinMes.setValue(new Integer("1"));
+		spinAo.setValue(new Integer("1900"));
+	
 	}
 }

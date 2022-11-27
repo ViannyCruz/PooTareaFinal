@@ -12,6 +12,9 @@ public class CoordinacionEvento {
 	private static CoordinacionEvento coordinacionEventos = null;
 	
 	public static int genCodeEvento = 1;
+	public static int genCodePersona = 1;
+	public static int genCodeTrabajo = 1;
+	public static int genCodeRecurso = 1;
 
 
 
@@ -36,7 +39,6 @@ public class CoordinacionEvento {
 
 	public void setEventos(ArrayList<Evento> eventos) {
 		this.eventos = eventos;
-		genCodeEvento++;
 	}
 
 	public ArrayList<Persona> getPersonas() {
@@ -47,10 +49,6 @@ public class CoordinacionEvento {
 		this.personas = personas;
 	}
 
-	public void addPersona(Persona persona) {
-		personas.add(persona);
-	}
-	
 	public ArrayList<TrabajoCientifico> getTrabajosCientificos() {
 		return trabajosCientificos;
 	}
@@ -67,24 +65,22 @@ public class CoordinacionEvento {
 		this.recursos = recursos;
 	}
 	
-	public void addRecurso(Recurso recurso) {
-		recursos.add(recurso);
-	}
-	
-	public void insertarFactura(Evento evento) {
+	public void insertarEvento(Evento evento) {
 		eventos.add(evento);	
+		genCodeEvento++;
 	}
-	public void insertarFactura(Persona persona) {
+	public void insertarPersona(Persona persona) {
 		personas.add(persona);
+		genCodePersona++;
 	}
-	public void insertarFactura(TrabajoCientifico trabajo) {
+	public void insertarTrabajo(TrabajoCientifico trabajo) {
 		trabajosCientificos.add(trabajo);
+		genCodeTrabajo++;
 	}
-	public void insertarFactura(Recurso recurso) {
+	public void insertarRecurso(Recurso recurso) {
 		recursos.add(recurso);
+		genCodeRecurso++;
 	}
-	
-	
 	
 	
 	public Evento getEventoByCode(String codigo)

@@ -21,7 +21,7 @@ public class Participante extends Persona {
 		this.trabajos = trabajos;
 	}
 
-	public void insertarFactura(TrabajoCientifico trabajo) {
+	public void insertarTrabajo(TrabajoCientifico trabajo) {
 		trabajos.add(trabajo);
 	}
 

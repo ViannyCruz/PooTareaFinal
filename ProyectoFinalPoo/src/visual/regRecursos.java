@@ -163,7 +163,7 @@ public class regRecursos extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						
 					Recurso recursoAux = new Recurso(txtCodigo.getText(), txtNombre.getText(), txtTipo.getText());
-					CoordinacionEvento.getInstance().addRecurso(recursoAux);
+					CoordinacionEvento.getInstance().insertarRecurso(recursoAux);
 					dispose();	
 					
 					}
