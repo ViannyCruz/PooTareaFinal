@@ -161,6 +161,7 @@ public class regParticipante extends JDialog {
 						String telefono = txtTelefono.getText();
 						String especialidad = cbxEspecialidad.getSelectedItem().toString();
 
+
 						if(rdbtnJurado.isSelected())
 						{
 							aux = new Jurado (cedula, nombre, telefono, especialidad);
@@ -168,38 +169,38 @@ public class regParticipante extends JDialog {
 						}
 						if(rdbtnParticipante.isSelected())
 						{
-                            aux = new Participante (cedula, nombre, telefono);
-						int option;
+							aux = new Participante (cedula, nombre, telefono);
+							int option;
 							option = JOptionPane.showConfirmDialog(null, "Participante creado con exito! Desea agregarle un Trabajo Cientifico?", "Confirmación", JOptionPane.YES_NO_OPTION);
 							if(option == JOptionPane.OK_OPTION){
-							   regTrabajoCientifico regTrabajo = new regTrabajoCientifico(aux);
-							   regTrabajo.setModal(true);
-							   regTrabajo.setVisible(true);
-							
-						}
+								regTrabajoCientifico regTrabajo = new regTrabajoCientifico(aux);
+								regTrabajo.setModal(true);
+								regTrabajo.setVisible(true);
+
 							}
+
+						}
 						CoordinacionEvento.getInstance().insertarPersona(aux);
 						clean();
-
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+
 	}
-	
+
 	private void clean() {
 		txtCedula.setText("");
-	    txtNombre.setText("");
-	    txtTelefono.setText("");
-	    cbxEspecialidad.setSelectedIndex(0);
+		txtNombre.setText("");
+		txtTelefono.setText("");
+		cbxEspecialidad.setSelectedIndex(0);
 		rdbtnParticipante.setSelected(false);
 		rdbtnJurado.setSelected(true);
 		rdbtnParticipante.setSelected(false);
 		lblNewLabel_4.setEnabled(true);
 		cbxEspecialidad.setEnabled(true);
-		
+
 	}
 }

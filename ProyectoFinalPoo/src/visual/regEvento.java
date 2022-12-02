@@ -53,6 +53,17 @@ public class regEvento extends JDialog {
 	private JButton btnEliminarParticipante;
 	private JButton btnAgregarRecurso;
 	private JButton btnEliminarRecurso;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JSpinner spnFecha;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNombreDos;
+	private JLabel lblCedula;
+	private JLabel lblTelefono;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -83,11 +94,11 @@ public class regEvento extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
-			JLabel lblNewLabel = new JLabel("Codigo:");
+			lblNewLabel = new JLabel("Codigo:");
 			lblNewLabel.setBounds(10, 8, 46, 20);
 			panel.add(lblNewLabel);
 			
-			JLabel lblNewLabel_1 = new JLabel("Nombre:");
+			lblNewLabel_1 = new JLabel("Nombre:");
 			lblNewLabel_1.setBounds(10, 36, 59, 20);
 			panel.add(lblNewLabel_1);
 			
@@ -101,16 +112,16 @@ public class regEvento extends JDialog {
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
 			
-			JLabel lblNewLabel_2 = new JLabel("Fecha:");
+			lblNewLabel_2 = new JLabel("Fecha:");
 			lblNewLabel_2.setBounds(260, 8, 46, 20);
 			panel.add(lblNewLabel_2);
 			
-			JSpinner spnFecha = new JSpinner();
+			spnFecha = new JSpinner();
 			spnFecha.setModel(new SpinnerDateModel(new Date(1669262400000L), null, null, Calendar.DAY_OF_YEAR));
 			spnFecha.setBounds(308, 8, 163, 20);
 			panel.add(spnFecha);
 			
-			JLabel lblNewLabel_3 = new JLabel("Tipo:");
+			lblNewLabel_3 = new JLabel("Tipo:");
 			lblNewLabel_3.setBounds(10, 68, 46, 20);
 			panel.add(lblNewLabel_3);
 			
@@ -119,7 +130,7 @@ public class regEvento extends JDialog {
 			panel.add(txtTipo);
 			txtTipo.setColumns(10);
 			
-			JLabel lblNewLabel_4 = new JLabel("Tema:");
+			lblNewLabel_4 = new JLabel("Tema:");
 			lblNewLabel_4.setBounds(260, 67, 46, 20);
 			panel.add(lblNewLabel_4);
 			
@@ -128,7 +139,7 @@ public class regEvento extends JDialog {
 			panel.add(txtTema);
 			txtTema.setColumns(10);
 			
-			JLabel lblNewLabel_5 = new JLabel("Ubicacion:");
+			lblNewLabel_5 = new JLabel("Ubicacion:");
 			lblNewLabel_5.setBounds(10, 96, 82, 20);
 			panel.add(lblNewLabel_5);
 			
@@ -173,7 +184,7 @@ public class regEvento extends JDialog {
 			btnEliminar.setBounds(285, 240, 117, 23);
 			panel_1.add(btnEliminar);
 			
-			JLabel lblNombreDos = new JLabel("Nombre:");
+			lblNombreDos = new JLabel("Nombre:");
 			lblNombreDos.setBounds(158, 60, 191, 20);
 			panel_1.add(lblNombreDos);
 			
@@ -182,7 +193,7 @@ public class regEvento extends JDialog {
 			panel_1.add(txtNombreDos);
 			txtNombreDos.setColumns(10);
 			
-			JLabel lblCedula = new JLabel("Cedula:");
+			lblCedula = new JLabel("Cedula:");
 			lblCedula.setBounds(158, 105, 46, 20);
 			panel_1.add(lblCedula);
 			
@@ -191,7 +202,7 @@ public class regEvento extends JDialog {
 			panel_1.add(txtCedula);
 			txtCedula.setColumns(10);
 			
-			JLabel lblTelefono = new JLabel("Telefono:");
+			lblTelefono = new JLabel("Telefono:");
 			lblTelefono.setBounds(158, 149, 67, 20);
 			panel_1.add(lblTelefono);
 			
@@ -227,7 +238,7 @@ public class regEvento extends JDialog {
 			LBLaCTUALES.setBounds(10, 60, 138, 20);
 			panel_1.add(LBLaCTUALES);
 			
-			JScrollPane scrollPane = new JScrollPane();
+			scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 80, 136, 220);
 			panel_1.add(scrollPane);
 			
