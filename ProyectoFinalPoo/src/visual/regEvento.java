@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -12,8 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
+
+import logico.CoordinacionEvento;
+import logico.Jurado;
+import logico.Persona;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -64,6 +71,24 @@ public class regEvento extends JDialog {
 	private JLabel lblCedula;
 	private JLabel lblTelefono;
 	private JScrollPane scrollPane;
+	
+	
+	
+	private String Area;
+	private Jurado moderador = null;
+	
+	private ArrayList<Persona> personas =  new ArrayList<>();
+	Jurado juradoAux = null;
+	int i = 0;
+	
+	
+	DefaultListModel modelListParticipantesAct = new DefaultListModel();
+	DefaultListModel modelListJuradosAct = new DefaultListModel();
+	DefaultListModel modelListRecursosAct = new DefaultListModel();
+
+	int selectedIndex = 0;
+
+	private JList list;
 
 	/**
 	 * Launch the application.
@@ -163,7 +188,38 @@ public class regEvento extends JDialog {
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					
+					if(rdbtnComision.isSelected() == true)
+					{
+						for (Persona persona : CoordinacionEvento.getInstance().getPersonas()) 
+						{
+							if(persona instanceof Jurado)
+								if(persona.getCedula().equalsIgnoreCase(txtBarraBuscar.getText()))
+								{
+									clearComision();
+									txtNombreDos.setText(persona.getNombre());
+									txtCedula.setText(persona.getCedula());
+									txtTelefono.setText(persona.getNumero());
+									txtEspecialidad.setText(((Jurado) persona).getEspecialidad());
+									
+									txtNombreDos.setEditable(false);
+									txtCedula.setEditable(false);
+									txtTelefono.setEditable(false);
+									txtEspecialidad.setEditable(false);
+									
+									juradoAux =  (Jurado) persona;
+								}
+								
+								else
+								{
+									juradoAux = null;
+									clearComision();
+									txtNombreDos.setEditable(true);
+									txtCedula.setEditable(true);
+									txtTelefono.setEditable(true);
+									txtEspecialidad.setEditable(true);
+								}
+						}
+					}
 					
 				}
 			});
@@ -175,11 +231,84 @@ public class regEvento extends JDialog {
 			panel_1.add(lblBuscar);
 			
 			btnAgregar = new JButton("Agregar jurado");
+			btnAgregar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					Jurado nuevoJurado = null;
+					int existe = 0;
+					
+					// Ya tengo un jurado
+					if(juradoAux != null)
+					{
+						modelListJuradosAct.addElement(juradoAux.getCedula());
+						personas.add(juradoAux);
+						juradoAux = null;
+						
+					}
+					else 
+					{
+						
+						for (Persona persona : personas) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+								existe = 1;
+								
+						}
+						
+						//Si no existe uno con la misma cedula
+						//Entonces ese jurado es valido
+						if(existe != 1)
+						{
+							juradoAux = new Jurado(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText(), txtEspecialidad.getText());
+							modelListJuradosAct.addElement(juradoAux.getCedula());
+							CoordinacionEvento.getInstance().getPersonas().add(juradoAux);
+							personas.add(juradoAux);
+							juradoAux =  null;
+						}
+						
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+			});
 			btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnAgregar.setBounds(158, 240, 117, 23);
 			panel_1.add(btnAgregar);
 			
 			btnEliminar = new JButton("Eliminar jurado");
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					selectedIndex = list.getSelectedIndex();
+
+
+					if (selectedIndex != -1) {
+						
+						
+						
+						//Eliminar de la ArrayList
+						juradoAux = (Jurado) CoordinacionEvento.getInstance().getPersonaByCedula((String) modelListJuradosAct.getElementAt(selectedIndex));
+						personas.remove(juradoAux);
+						
+						//Eliminar de la lista
+						modelListJuradosAct.remove(selectedIndex);
+						
+					}
+
+					
+				}
+			});
 			btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnEliminar.setBounds(285, 240, 117, 23);
 			panel_1.add(btnEliminar);
@@ -221,6 +350,18 @@ public class regEvento extends JDialog {
 			txtEspecialidad.setColumns(10);
 			
 			btnAgregarComoModerador = new JButton("Agregar como Moderador");
+			btnAgregarComoModerador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				
+
+					
+					
+					
+					
+				}
+			});
 			btnAgregarComoModerador.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnAgregarComoModerador.setBounds(158, 277, 244, 23);
 			panel_1.add(btnAgregarComoModerador);
@@ -242,8 +383,10 @@ public class regEvento extends JDialog {
 			scrollPane.setBounds(10, 80, 136, 220);
 			panel_1.add(scrollPane);
 			
-			JList list = new JList();
+			list = new JList();
 			scrollPane.setViewportView(list);
+			list.setModel(modelListJuradosAct);
+
 			
 			lblAreaDeLaComision = new JLabel("Area de la comision:");
 			lblAreaDeLaComision.setBounds(10, 315, 122, 14);
@@ -288,6 +431,7 @@ public class regEvento extends JDialog {
 			rdbtRecursos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					clearComision();
 					
 					btnAgregarRecurso.setVisible(true);
 					btnEliminarRecurso.setVisible(true);
@@ -331,6 +475,9 @@ public class regEvento extends JDialog {
 			rdbtnParticipantes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					clearComision();
+					list.setModel(modelListParticipantesAct);
+					
 					btnAgregarParticipante.setVisible(true);
 					btnEliminarParticipante.setVisible(true);
 					
@@ -368,7 +515,8 @@ public class regEvento extends JDialog {
 			rdbtnComision.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					
+					list.setModel(modelListJuradosAct);
+
 					btnAgregarParticipante.setVisible(false);
 					btnEliminarParticipante.setVisible(false);
 					
@@ -426,5 +574,15 @@ public class regEvento extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	
+	
+	public void clearComision()
+	{
+		txtNombreDos.setText("");
+		txtCedula.setText("");
+		txtTelefono.setText("");
+		txtEspecialidad.setText("");
 	}
 }
