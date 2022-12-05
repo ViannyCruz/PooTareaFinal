@@ -16,10 +16,18 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+import logico.Comision;
 import logico.CoordinacionEvento;
 import logico.Jurado;
+import logico.Participante;
 import logico.Persona;
+import logico.Recurso;
 
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -27,6 +35,8 @@ import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class regEvento extends JDialog {
 
@@ -40,9 +50,7 @@ public class regEvento extends JDialog {
 	private JTextField txtNombreDos;
 	private JTextField txtCedula;
 	private JTextField txtTelefono;
-	private JTextField txtEspecialidad;
 	private JTextField txtModeradorActual;
-	private JTextField txtAreaDeComision;
 	private JRadioButton rdbtnComision;
 	private JRadioButton rdbtnParticipantes;
 	private JRadioButton rdbtRecursos;
@@ -78,7 +86,12 @@ public class regEvento extends JDialog {
 	private Jurado moderador = null;
 	
 	private ArrayList<Persona> personas =  new ArrayList<>();
+	private ArrayList<Recurso> recursos = new ArrayList<>();
+	private ArrayList<Comision> comisiones = new ArrayList<>();
+	
 	Jurado juradoAux = null;
+	Participante participanteAux = null;
+	Recurso recursoAux = null;
 	int i = 0;
 	
 	
@@ -89,6 +102,12 @@ public class regEvento extends JDialog {
 	int selectedIndex = 0;
 
 	private JList list;
+	private JComboBox cbxEspecialidad;
+	private JComboBox cbxArea;
+	private JButton btnLimpiarCampos;
+	private JButton btnNewButton;
+	private JButton btnAgregarComison;
+	private JComboBox cbxTipo;
 
 	/**
 	 * Launch the application.
@@ -175,12 +194,12 @@ public class regEvento extends JDialog {
 			
 			JPanel panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setBounds(10, 181, 461, 401);
+			panel_1.setBounds(10, 181, 461, 432);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 			
 			txtBarraBuscar = new JTextField();
-			txtBarraBuscar.setBounds(10, 25, 339, 22);
+			txtBarraBuscar.setBounds(10, 25, 247, 22);
 			panel_1.add(txtBarraBuscar);
 			txtBarraBuscar.setColumns(10);
 			
@@ -199,12 +218,12 @@ public class regEvento extends JDialog {
 									txtNombreDos.setText(persona.getNombre());
 									txtCedula.setText(persona.getCedula());
 									txtTelefono.setText(persona.getNumero());
-									txtEspecialidad.setText(((Jurado) persona).getEspecialidad());
+									cbxEspecialidad.setSelectedItem(juradoAux.getEspecialidad().toString());
 									
 									txtNombreDos.setEditable(false);
 									txtCedula.setEditable(false);
 									txtTelefono.setEditable(false);
-									txtEspecialidad.setEditable(false);
+									cbxEspecialidad.setEditable(false);
 									
 									juradoAux =  (Jurado) persona;
 								}
@@ -216,14 +235,50 @@ public class regEvento extends JDialog {
 									txtNombreDos.setEditable(true);
 									txtCedula.setEditable(true);
 									txtTelefono.setEditable(true);
-									txtEspecialidad.setEditable(true);
+									cbxEspecialidad.setEditable(true);
 								}
 						}
+					}
+					else if(rdbtnParticipantes.isSelected() == true)
+					{
+						for (Persona persona : CoordinacionEvento.getInstance().getPersonas()) 
+						{
+							if(persona instanceof Participante)
+								if(persona.getCedula().equalsIgnoreCase(txtBarraBuscar.getText()))
+								{
+									clearComision();
+									txtNombreDos.setText(persona.getNombre());
+									txtCedula.setText(persona.getCedula());
+									txtTelefono.setText(persona.getNumero());
+									
+									txtNombreDos.setEditable(false);
+									txtCedula.setEditable(false);
+									txtTelefono.setEditable(false);
+									
+									participanteAux =  (Participante) persona;
+								}
+								
+								else
+								{
+									participanteAux = null;
+									clearComision();
+									txtNombreDos.setEditable(true);
+									txtCedula.setEditable(true);
+									txtTelefono.setEditable(true);
+								}
+						}
+						
+						
+						
+						
+						
+						
+						
 					}
 					
 				}
 			});
-			btnBuscar.setBounds(362, 24, 89, 23);
+			btnBuscar.setBounds(267, 25, 89, 23);
 			panel_1.add(btnBuscar);
 			
 			lblBuscar = new JLabel("Buscar jurado por cedula");
@@ -231,18 +286,34 @@ public class regEvento extends JDialog {
 			panel_1.add(lblBuscar);
 			
 			btnAgregar = new JButton("Agregar jurado");
+			btnAgregar.setEnabled(false);
 			btnAgregar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) 
 				{
+					habilitarAgregarComision();
+
 					Jurado nuevoJurado = null;
 					int existe = 0;
 					
 					// Ya tengo un jurado
 					if(juradoAux != null)
 					{
-						modelListJuradosAct.addElement(juradoAux.getCedula());
-						personas.add(juradoAux);
-						juradoAux = null;
+						
+						for (Persona persona : personas) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+								existe = 1;
+						}
+						
+						
+						if(existe == 0)
+						{
+						
+							modelListJuradosAct.addElement(juradoAux.getCedula());
+							personas.add(juradoAux);
+							juradoAux = null;
+						}
+						
 						
 					}
 					else 
@@ -252,14 +323,13 @@ public class regEvento extends JDialog {
 						{
 							if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
 								existe = 1;
-								
 						}
 						
 						//Si no existe uno con la misma cedula
 						//Entonces ese jurado es valido
 						if(existe != 1)
 						{
-							juradoAux = new Jurado(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText(), txtEspecialidad.getText());
+							juradoAux = new Jurado(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText(), cbxEspecialidad.getSelectedItem().toString());
 							modelListJuradosAct.addElement(juradoAux.getCedula());
 							CoordinacionEvento.getInstance().getPersonas().add(juradoAux);
 							personas.add(juradoAux);
@@ -268,18 +338,7 @@ public class regEvento extends JDialog {
 						
 					}
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					clearComision();
 				}
 			});
 			btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -289,24 +348,29 @@ public class regEvento extends JDialog {
 			btnEliminar = new JButton("Eliminar jurado");
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
+					habilitarAgregarComision();
+
 					selectedIndex = list.getSelectedIndex();
-
-
 					if (selectedIndex != -1) {
-						
-						
 						
 						//Eliminar de la ArrayList
 						juradoAux = (Jurado) CoordinacionEvento.getInstance().getPersonaByCedula((String) modelListJuradosAct.getElementAt(selectedIndex));
 						personas.remove(juradoAux);
 						
 						//Eliminar de la lista
+						selectedIndex = list.getSelectedIndex();
 						modelListJuradosAct.remove(selectedIndex);
 						
+						if(moderador == juradoAux)
+							moderador = null;
+						
+						juradoAux = null;
+						clearComision();
+						list.setSelectedIndex(-1);
 					}
+					clearComision();
+						
 
-					
 				}
 			});
 			btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -321,6 +385,34 @@ public class regEvento extends JDialog {
 			txtNombreDos.setBounds(158, 80, 293, 20);
 			panel_1.add(txtNombreDos);
 			txtNombreDos.setColumns(10);
+			txtNombreDos.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+					
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+			});
 			
 			lblCedula = new JLabel("Cedula:");
 			lblCedula.setBounds(158, 105, 46, 20);
@@ -330,35 +422,153 @@ public class regEvento extends JDialog {
 			txtCedula.setBounds(158, 124, 191, 20);
 			panel_1.add(txtCedula);
 			txtCedula.setColumns(10);
+			txtCedula.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+			});
 			
 			lblTelefono = new JLabel("Telefono:");
-			lblTelefono.setBounds(158, 149, 67, 20);
+			lblTelefono.setBounds(158, 148, 67, 20);
 			panel_1.add(lblTelefono);
 			
 			txtTelefono = new JTextField();
 			txtTelefono.setBounds(158, 167, 191, 20);
 			panel_1.add(txtTelefono);
 			txtTelefono.setColumns(10);
+			txtTelefono.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitar();
+					habilitarAgregarComision();
+
+
+				}
+			});
 			
 			lblEspecialidad = new JLabel("Especialidad:");
 			lblEspecialidad.setBounds(158, 190, 122, 20);
 			panel_1.add(lblEspecialidad);
 			
-			txtEspecialidad = new JTextField();
-			txtEspecialidad.setBounds(158, 209, 191, 20);
-			panel_1.add(txtEspecialidad);
-			txtEspecialidad.setColumns(10);
-			
 			btnAgregarComoModerador = new JButton("Agregar como Moderador");
+			btnAgregarComoModerador.setEnabled(false);
 			btnAgregarComoModerador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					Jurado nuevoJurado = null;
+					int existe = 0;
 					
-				
+					// Ya tengo un jurado
+					if(juradoAux != null)
+					{
+						
+						for (Persona persona : personas) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+								existe = 1;
+						}
+						
+						
+						if(existe == 1)
+						{
+							moderador = juradoAux;
+							txtModeradorActual.setText(moderador.getNombre());
+							juradoAux = null;
+							existe = 0;
+						}
+						else
+						{
+							modelListJuradosAct.addElement(juradoAux.getCedula());
+							personas.add(juradoAux);
+							moderador = juradoAux;
+							txtModeradorActual.setText(moderador.getNombre());
+							juradoAux = null;
+						}
+						
+						
+						
+						
+						
+						
+						
+					}
+					else 
+					{
+						
+						for (Persona persona : personas) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+								existe = 1;
+						}
+						
+						
+						if(existe != 1)
+						{
+							juradoAux = new Jurado(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText(), cbxEspecialidad.getSelectedItem().toString());
+							modelListJuradosAct.addElement(juradoAux.getCedula());
+							CoordinacionEvento.getInstance().getPersonas().add(juradoAux);
+							personas.add(juradoAux);
+							moderador = juradoAux;
+							txtModeradorActual.setText(moderador.getNombre());
+							
+							juradoAux =  null;
+						}
+						
+					}
+					
 
 					
 					
 					
+					
+					
+					
+					habilitarAgregarComision();
+
 					
 				}
 			});
@@ -371,6 +581,7 @@ public class regEvento extends JDialog {
 			panel_1.add(lblModeradorActual);
 			
 			txtModeradorActual = new JTextField();
+			txtModeradorActual.setEnabled(false);
 			txtModeradorActual.setBounds(10, 370, 441, 20);
 			panel_1.add(txtModeradorActual);
 			txtModeradorActual.setColumns(10);
@@ -386,24 +597,144 @@ public class regEvento extends JDialog {
 			list = new JList();
 			scrollPane.setViewportView(list);
 			list.setModel(modelListJuradosAct);
+			list.addListSelectionListener(new ListSelectionListener() {
+				
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					// TODO Auto-generated method stub
+					habilitarAgregarComision();
+					selectedIndex = list.getSelectedIndex();
+					
+					if(selectedIndex != -1)
+					{
+						if(rdbtnComision.isSelected() == true)
+						{
+							juradoAux = (Jurado) CoordinacionEvento.getInstance().getJuradoByCedula(modelListJuradosAct.getElementAt(list.getSelectedIndex()).toString());
+							putDatos(juradoAux);
+							list.setSelectedIndex(-1);
+							
+							txtNombreDos.setEditable(false);
+							txtCedula.setEditable(false);
+							txtTelefono.setEditable(false);
+							cbxEspecialidad.setEditable(false);
+						}else if(rdbtnParticipantes.isSelected() == true)
+						{
+							participanteAux = (Participante) CoordinacionEvento.getInstance().getParticipanteByCedula(list.getSelectedValue().toString());
+							putDatos(participanteAux);
+							list.setSelectedIndex(-1);
+							
+							txtNombreDos.setEditable(false);
+							txtCedula.setEditable(false);
+							txtTelefono.setEditable(false);
+							cbxEspecialidad.setEditable(false);
+						}
+						
+
+					}
+					
+					
+					
+					
+				}
+				
+				
+				
+			});
 
 			
 			lblAreaDeLaComision = new JLabel("Area de la comision:");
 			lblAreaDeLaComision.setBounds(10, 315, 122, 14);
 			panel_1.add(lblAreaDeLaComision);
 			
-			txtAreaDeComision = new JTextField();
-			txtAreaDeComision.setBounds(10, 330, 441, 20);
-			panel_1.add(txtAreaDeComision);
-			txtAreaDeComision.setColumns(10);
-			
 			btnAgregarParticipante = new JButton("Agregar Participante");
+			btnAgregarParticipante.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				
+						Participante nuevoParticipante = null;
+						int existe = 0;
+						
+						// Ya tengo un jurado
+						if(juradoAux != null)
+						{
+							
+							for (Persona persona : personas) 
+							{
+								if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+									existe = 1;
+							}
+							
+							
+							if(existe == 0)
+							{
+							
+								modelListParticipantesAct.addElement(participanteAux.getCedula());
+								personas.add(participanteAux);
+								participanteAux = null;
+							}
+							
+							
+						}
+						else 
+						{
+							
+							for (Persona persona : personas) 
+							{
+								if(txtCedula.getText().equalsIgnoreCase(persona.getCedula()))
+									existe = 1;
+							}
+							
+							//Si no existe uno con la misma cedula
+							//Entonces ese jurado es valido
+							if(existe != 1)
+							{
+								participanteAux = new Participante(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText());
+								modelListParticipantesAct.addElement(participanteAux.getCedula());
+								CoordinacionEvento.getInstance().getPersonas().add(participanteAux);
+								personas.add(participanteAux);
+								participanteAux =  null;
+							}
+							
+						}
+						
+						
+						
+					
+					
+					clearComision();
+					
+					
+				}
+			});
 			btnAgregarParticipante.setBounds(158, 241, 191, 23);
 			panel_1.add(btnAgregarParticipante);
 			btnAgregarParticipante.setVisible(false);
 
 			
 			btnEliminarParticipante = new JButton("Eliminar Participante");
+			btnEliminarParticipante.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					selectedIndex = list.getSelectedIndex();
+					if (selectedIndex != -1) {
+						
+						//Eliminar de la ArrayList
+						participanteAux = (Participante) CoordinacionEvento.getInstance().getParticipanteByCedula((String) modelListParticipantesAct.getElementAt(selectedIndex));
+						personas.remove(participanteAux);
+						
+						//Eliminar de la lista
+						selectedIndex = list.getSelectedIndex();
+						modelListParticipantesAct.remove(selectedIndex);
+						
+	
+						participanteAux = null;
+						clearComision();
+						list.setSelectedIndex(-1);
+					}
+					clearComision();
+					
+				}
+			});
 			btnEliminarParticipante.setBounds(158, 274, 191, 23);
 			panel_1.add(btnEliminarParticipante);
 			btnEliminarParticipante.setVisible(false);
@@ -411,14 +742,169 @@ public class regEvento extends JDialog {
 
 			
 			btnAgregarRecurso = new JButton("Agregar Recurso");
+			btnAgregarRecurso.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Recurso nuevoRecurso = null;
+					int existe = 0;
+					
+					if(recursoAux != null)
+					{
+						
+						for (Recurso recurso : recursos) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(recurso.getCodigo()))
+								existe = 1;
+						}
+						
+						
+						if(existe == 0)
+						{
+						
+							modelListRecursosAct.addElement(recursoAux.getCodigo());
+							recursos.add(recursoAux);
+							recursoAux = null;
+						}
+						
+						
+					}
+					else 
+					{
+						
+						for (Recurso recurso : recursos) 
+						{
+							if(txtCedula.getText().equalsIgnoreCase(recurso.getCodigo()))
+								existe = 1;
+						}
+
+						if(existe != 1)
+						{
+							recursoAux = new Recurso(txtCedula.getText(), txtNombreDos.getText(),cbxTipo.getSelectedItem().toString());
+							modelListRecursosAct.addElement(recursoAux.getCodigo());
+							CoordinacionEvento.getInstance().getRecursos().add(recursoAux);
+							recursos.add(recursoAux);
+							recursoAux =  null;
+						}
+						
+					}
+					
+					clearComision();
+					
+					
+				}
+			});
 			btnAgregarRecurso.setBounds(158, 241, 191, 23);
 			panel_1.add(btnAgregarRecurso);
 			btnAgregarRecurso.setVisible(false);
 
 			
 			btnEliminarRecurso = new JButton("Eliminar Recurso");
+			btnEliminarRecurso.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					selectedIndex = list.getSelectedIndex();
+					if (selectedIndex != -1) {
+						
+						//Eliminar de la ArrayList
+						recursoAux = (Recurso) CoordinacionEvento.getInstance().getRecursoByCode((String) modelListRecursosAct.getElementAt(selectedIndex));
+						recursos.remove(recursoAux);
+						
+						//Eliminar de la lista
+						selectedIndex = list.getSelectedIndex();
+						modelListRecursosAct.remove(selectedIndex);
+						
+						
+						recursoAux = null;
+						clearComision();
+						list.setSelectedIndex(-1);
+					}
+					clearComision();
+						
+					
+				}
+			});
 			btnEliminarRecurso.setBounds(158, 274, 191, 23);
 			panel_1.add(btnEliminarRecurso);
+			
+			btnLimpiarCampos = new JButton("Limpiar");
+			btnLimpiarCampos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					clearComision();
+					juradoAux = null;
+					//list.setSelectedIndex(-1);
+				}
+			});
+			btnLimpiarCampos.setBounds(362, 25, 89, 23);
+			panel_1.add(btnLimpiarCampos);
+			
+			cbxEspecialidad = new JComboBox();
+			cbxEspecialidad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					habilitar();
+				}
+			});
+			cbxEspecialidad.setModel(new DefaultComboBoxModel(new String[] {"Matem\u00E1ticas", "F\u00EDsica", "Qu\u00EDmica", "Biolog\u00EDa", "Astronom\u00EDa", "Sociolog\u00EDa", "Ambiental"}));
+			cbxEspecialidad.setBounds(158, 209, 191, 20);
+			panel_1.add(cbxEspecialidad);
+			
+			cbxArea = new JComboBox();
+			cbxArea.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					habilitar();
+				}
+			});
+			cbxArea.setModel(new DefaultComboBoxModel(new String[] {"Matem\u00E1ticas", "F\u00EDsica", "Qu\u00EDmica", "Biolog\u00EDa", "Astronom\u00EDa", "Sociolog\u00EDa", "Ambiental"}));
+			cbxArea.setBounds(10, 329, 441, 20);
+			panel_1.add(cbxArea);
+			
+			btnNewButton = new JButton("Ver comisiones");
+			btnNewButton.setBounds(10, 398, 138, 23);
+			panel_1.add(btnNewButton);
+			
+			btnAgregarComison = new JButton("Agregar comision");
+			btnAgregarComison.setEnabled(false);
+			btnAgregarComison.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				//Agregar comision
+				Comision comisionAux = new Comision(cbxArea.getSelectedItem().toString(), moderador);
+				comisiones.add(comisionAux);
+				
+				ArrayList<Jurado> jurados =  new ArrayList<>();
+				
+				for (Persona persona : personas) {
+					if(persona instanceof Jurado)
+					{
+						jurados.add((Jurado) persona);
+						modelListJuradosAct.removeElement(persona.getCedula());
+					}
+				}
+				
+				comisionAux.setJurados(jurados);
+				habilitarAgregarComision();
+				moderador = null;
+				clearComision();	
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+			});
+			btnAgregarComison.setBounds(156, 398, 138, 23);
+			panel_1.add(btnAgregarComison);
+			
+			cbxTipo = new JComboBox();
+			cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Bocina"}));
+			cbxTipo.setBounds(158, 167, 191, 20);
+			panel_1.add(cbxTipo);
 			btnEliminarRecurso.setVisible(false);
 
 			
@@ -432,7 +918,12 @@ public class regEvento extends JDialog {
 				public void actionPerformed(ActionEvent arg0) {
 					
 					clearComision();
+					list.setModel(modelListRecursosAct);
+
+					cbxTipo.setVisible(true);
+					txtTelefono.setVisible(false);
 					
+					cbxArea.setVisible(false);
 					btnAgregarRecurso.setVisible(true);
 					btnEliminarRecurso.setVisible(true);
 					
@@ -446,12 +937,11 @@ public class regEvento extends JDialog {
 					rdbtnParticipantes.setSelected(false);
 					
 					lblEspecialidad.setVisible(false);
-					txtEspecialidad.setVisible(false);
+					cbxEspecialidad.setVisible(false);
 					
 					btnAgregarComoModerador.setVisible(false);
 					
 					lblAreaDeLaComision.setVisible(false);	
-					txtAreaDeComision.setVisible(false);
 					
 					lblModeradorActual.setVisible(false);
 					txtModeradorActual.setVisible(false);
@@ -468,7 +958,7 @@ public class regEvento extends JDialog {
 					
 				}
 			});
-			rdbtRecursos.setBounds(389, 151, 82, 23);
+			rdbtRecursos.setBounds(401, 151, 82, 23);
 			panel.add(rdbtRecursos);
 			
 			rdbtnParticipantes = new JRadioButton("Participantes");
@@ -477,6 +967,10 @@ public class regEvento extends JDialog {
 					
 					clearComision();
 					list.setModel(modelListParticipantesAct);
+					
+					cbxTipo.setVisible(false);
+					txtTipo.setVisible(true);
+					cbxArea.setVisible(false);
 					
 					btnAgregarParticipante.setVisible(true);
 					btnEliminarParticipante.setVisible(true);
@@ -493,30 +987,37 @@ public class regEvento extends JDialog {
 					rdbtRecursos.setSelected(false);
 					
 					lblEspecialidad.setVisible(false);
-					txtEspecialidad.setVisible(false);
+					cbxEspecialidad.setVisible(false);
 					
 					btnAgregarComoModerador.setVisible(false);
 					
 					lblAreaDeLaComision.setVisible(false);	
-					txtAreaDeComision.setVisible(false);
+					cbxEspecialidad.setVisible(false);
 					
 					lblModeradorActual.setVisible(false);
 					txtModeradorActual.setVisible(false);
 					
+					lblNombreDos.setText("Nombre");
+					lblCedula.setText("Cedula");
 					lblBuscar.setText("Buscar participante por cedula");
 					lblTitulo.setText("Participantes");
 					LBLaCTUALES.setText("Participantes actuales");
 				}
 			});
-			rdbtnParticipantes.setBounds(278, 151, 109, 23);
+			rdbtnParticipantes.setBounds(290, 151, 109, 23);
 			panel.add(rdbtnParticipantes);
 			
 			rdbtnComision = new JRadioButton("Comision");
 			rdbtnComision.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					clearComision();
 					list.setModel(modelListJuradosAct);
+					cbxArea.setVisible(true);
 
+					cbxTipo.setVisible(false);
+					txtTipo.setVisible(true);
+					
 					btnAgregarParticipante.setVisible(false);
 					btnEliminarParticipante.setVisible(false);
 					
@@ -532,12 +1033,12 @@ public class regEvento extends JDialog {
 					
 					
 					lblEspecialidad.setVisible(true);
-					txtEspecialidad.setVisible(true);
+					cbxEspecialidad.setVisible(true);
 					
 					btnAgregarComoModerador.setVisible(true);
 					
 					lblAreaDeLaComision.setVisible(true);	
-					txtAreaDeComision.setVisible(true);
+					cbxEspecialidad.setVisible(true);
 					
 					lblModeradorActual.setVisible(true);
 					txtModeradorActual.setVisible(true);
@@ -554,7 +1055,7 @@ public class regEvento extends JDialog {
 				}
 			});
 			rdbtnComision.setSelected(true);
-			rdbtnComision.setBounds(183, 151, 93, 23);
+			rdbtnComision.setBounds(195, 151, 93, 23);
 			panel.add(rdbtnComision);
 		}
 		{
@@ -570,19 +1071,97 @@ public class regEvento extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Registrar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						
+						
+						
+						
+					}
+				});
+				cancelButton.setEnabled(false);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
 	
+	public int getcantJurados()
+	{
+		int cantJurados = 0;
+		for (Persona persona : personas) {
+			if(persona instanceof Jurado)
+				cantJurados++;
+		}
+		
+		return cantJurados;
+	}
 	
+	public void habilitarAgregarComision()
+	{
+		if(txtModeradorActual.getText().equals("") || getcantJurados() < 2)
+			btnAgregarComison.setEnabled(false);
+		else
+			btnAgregarComison.setEnabled(true);
+	}
+	
+	public void habilitar()
+	{
+		if(txtNombreDos.getText().equals("") || txtCedula.getText().equals("") || txtTelefono.getText().equals(""))
+		{
+			btnAgregar.setEnabled(false);
+			btnAgregarComoModerador.setEnabled(false);
+			
+			btnAgregarParticipante.setEnabled(false);
+			btnAgregarRecurso.setEnabled(false);
+		}
+		else
+		{
+			if(txtNombreDos.isEnabled() == true)
+			{
+				btnAgregar.setEnabled(true);
+				btnAgregarParticipante.setEnabled(true);
+				btnAgregarRecurso.setEnabled(true);
+			}
+			
+			if(juradoAux != null)
+			{
+				if(cbxArea.getSelectedItem().toString().equalsIgnoreCase(cbxEspecialidad.getSelectedItem().toString()))
+				{
+					btnAgregarComoModerador.setEnabled(true);
+				}
+				else
+					btnAgregarComoModerador.setEnabled(false);
+			}
+							
+		}
+	}
 	
 	public void clearComision()
 	{
 		txtNombreDos.setText("");
 		txtCedula.setText("");
 		txtTelefono.setText("");
-		txtEspecialidad.setText("");
+		cbxEspecialidad.setSelectedIndex(0);
+		
+		txtNombreDos.setEditable(true);
+		txtCedula.setEditable(true);
+		txtTelefono.setEditable(true);
+		cbxEspecialidad.setEditable(true);
+		
+	}
+	
+	public void putDatos(Persona persona)
+	{
+		
+		clearComision();
+		txtNombreDos.setText(persona.getNombre());
+		txtCedula.setText(persona.getCedula());
+		txtTelefono.setText(persona.getNumero());
+		
+		if(persona instanceof Jurado)
+			cbxEspecialidad.setSelectedItem(((Jurado) persona).getEspecialidad());
+		
 	}
 }
