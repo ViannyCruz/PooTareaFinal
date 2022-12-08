@@ -31,6 +31,7 @@ public class listRecursos extends JDialog {
 	private static Object[] rows;
 	private Recurso selected = null;
 	private JButton btnRevisado;
+	private JButton btnModificar;
 	/**
 	 * Launch the application.
 	 */
@@ -75,9 +76,9 @@ public class listRecursos extends JDialog {
 							int rowSelected = -1;
 							rowSelected = table.getSelectedRow();
 							if(rowSelected>=0){
-								btnRevisado.setEnabled(true);
+								//btnRevisado.setEnabled(true);
 								selected = CoordinacionEvento.getInstance().getRecursoByCode(table.getValueAt(rowSelected, 0).toString());
-
+								btnModificar.setEnabled(true);
 							}
 						}
 					});
@@ -98,6 +99,18 @@ public class listRecursos extends JDialog {
 						dispose();
 					}
 				});
+				{
+					btnModificar = new JButton("Modificar");
+					btnModificar.setEnabled(false);
+					btnModificar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							modRecurso modRecursoAux = new modRecurso(selected);
+							modRecursoAux.setModal(true);
+							modRecursoAux.setVisible(true);
+						}
+					});
+					buttonPane.add(btnModificar);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import logico.Comision;
 import logico.CoordinacionEvento;
+import logico.Evento;
 import logico.Jurado;
 import logico.Participante;
 import logico.Persona;
@@ -43,7 +44,6 @@ public class regEvento extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCodigo;
 	private JTextField txtNombre;
-	private JTextField txtTipo;
 	private JTextField txtTema;
 	private JTextField txtUbicacion;
 	private JTextField txtBarraBuscar;
@@ -105,9 +105,12 @@ public class regEvento extends JDialog {
 	private JComboBox cbxEspecialidad;
 	private JComboBox cbxArea;
 	private JButton btnLimpiarCampos;
-	private JButton btnNewButton;
+	private JButton btnVerComisiones;
 	private JButton btnAgregarComison;
 	private JComboBox cbxTipo;
+	private JComboBox cbxTipoEvento;
+	private JButton btnRegistrar;
+	private JButton btnCancelar;
 
 	/**
 	 * Launch the application.
@@ -155,6 +158,28 @@ public class regEvento extends JDialog {
 			txtNombre.setBounds(70, 36, 401, 20);
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
+			txtNombre.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+			});
 			
 			lblNewLabel_2 = new JLabel("Fecha:");
 			lblNewLabel_2.setBounds(260, 8, 46, 20);
@@ -169,11 +194,6 @@ public class regEvento extends JDialog {
 			lblNewLabel_3.setBounds(10, 68, 46, 20);
 			panel.add(lblNewLabel_3);
 			
-			txtTipo = new JTextField();
-			txtTipo.setBounds(70, 68, 163, 20);
-			panel.add(txtTipo);
-			txtTipo.setColumns(10);
-			
 			lblNewLabel_4 = new JLabel("Tema:");
 			lblNewLabel_4.setBounds(260, 67, 46, 20);
 			panel.add(lblNewLabel_4);
@@ -182,6 +202,29 @@ public class regEvento extends JDialog {
 			txtTema.setBounds(308, 67, 163, 20);
 			panel.add(txtTema);
 			txtTema.setColumns(10);
+			txtTema.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+			});
 			
 			lblNewLabel_5 = new JLabel("Ubicacion:");
 			lblNewLabel_5.setBounds(10, 96, 82, 20);
@@ -191,7 +234,29 @@ public class regEvento extends JDialog {
 			txtUbicacion.setBounds(70, 96, 401, 20);
 			panel.add(txtUbicacion);
 			txtUbicacion.setColumns(10);
-			
+			txtUbicacion.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+			});		
 			JPanel panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel_1.setBounds(10, 181, 461, 432);
@@ -338,7 +403,10 @@ public class regEvento extends JDialog {
 						
 					}
 					
+					btnAgregar.setEnabled(false);
 					clearComision();
+					habilitarRegistrarEvento();
+
 				}
 			});
 			btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -585,6 +653,29 @@ public class regEvento extends JDialog {
 			txtModeradorActual.setBounds(10, 370, 441, 20);
 			panel_1.add(txtModeradorActual);
 			txtModeradorActual.setColumns(10);
+			txtModeradorActual.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					habilitarRegistrarEvento();
+
+				}
+			});
 			
 			LBLaCTUALES = new JLabel("Jurados actuales");
 			LBLaCTUALES.setBounds(10, 60, 138, 20);
@@ -699,10 +790,11 @@ public class regEvento extends JDialog {
 						
 						
 						
-					
+					btnAgregarParticipante.setEnabled(false);
 					
 					clearComision();
-					
+					habilitarRegistrarEvento();
+
 					
 				}
 			});
@@ -858,9 +950,19 @@ public class regEvento extends JDialog {
 			cbxArea.setBounds(10, 329, 441, 20);
 			panel_1.add(cbxArea);
 			
-			btnNewButton = new JButton("Ver comisiones");
-			btnNewButton.setBounds(10, 398, 138, 23);
-			panel_1.add(btnNewButton);
+			btnVerComisiones = new JButton("Ver comisiones");
+			btnVerComisiones.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					verComisiones verComisionesAux = new verComisiones(comisiones);
+					verComisionesAux.setVisible(true);
+					
+					
+					
+				}
+			});
+			btnVerComisiones.setBounds(10, 398, 138, 23);
+			panel_1.add(btnVerComisiones);
 			
 			btnAgregarComison = new JButton("Agregar comision");
 			btnAgregarComison.setEnabled(false);
@@ -885,6 +987,7 @@ public class regEvento extends JDialog {
 				habilitarAgregarComision();
 				moderador = null;
 				clearComision();	
+				btnAgregarComison.setEnabled(false);
 
 					
 					
@@ -916,6 +1019,10 @@ public class regEvento extends JDialog {
 			rdbtRecursos = new JRadioButton("Recursos");
 			rdbtRecursos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
+					btnVerComisiones.setVisible(false);
+					btnAgregarComison.setVisible(false);
+					
 					
 					clearComision();
 					list.setModel(modelListRecursosAct);
@@ -968,8 +1075,10 @@ public class regEvento extends JDialog {
 					clearComision();
 					list.setModel(modelListParticipantesAct);
 					
+					btnVerComisiones.setVisible(false);
+					btnAgregarComison.setVisible(false);
 					cbxTipo.setVisible(false);
-					txtTipo.setVisible(true);
+					cbxTipoEvento.setVisible(true);
 					cbxArea.setVisible(false);
 					
 					btnAgregarParticipante.setVisible(true);
@@ -980,7 +1089,7 @@ public class regEvento extends JDialog {
 			
 					btnAgregar.setVisible(false);
 					btnEliminar.setVisible(false);
-					
+					txtTelefono.setVisible(true);
 					
 					
 					rdbtnComision.setSelected(false);
@@ -1015,9 +1124,13 @@ public class regEvento extends JDialog {
 					list.setModel(modelListJuradosAct);
 					cbxArea.setVisible(true);
 
-					cbxTipo.setVisible(false);
-					txtTipo.setVisible(true);
+					btnVerComisiones.setVisible(true);
+					btnAgregarComison.setVisible(true);
 					
+					cbxTipo.setVisible(false);
+					cbxTipoEvento.setVisible(true);
+					
+					txtTelefono.setVisible(true);
 					btnAgregarParticipante.setVisible(false);
 					btnEliminarParticipante.setVisible(false);
 					
@@ -1057,6 +1170,11 @@ public class regEvento extends JDialog {
 			rdbtnComision.setSelected(true);
 			rdbtnComision.setBounds(195, 151, 93, 23);
 			panel.add(rdbtnComision);
+			
+			cbxTipoEvento = new JComboBox();
+			cbxTipoEvento.setModel(new DefaultComboBoxModel(new String[] {"Panel", "Mesa Redonda"}));
+			cbxTipoEvento.setBounds(70, 68, 163, 20);
+			panel.add(cbxTipoEvento);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -1064,25 +1182,33 @@ public class regEvento extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Cancelar");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Registrar");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						
-						
-						
-						
-						
+				btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
 					}
 				});
-				cancelButton.setEnabled(false);
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancelar.setActionCommand("OK");
+				buttonPane.add(btnCancelar);
+				getRootPane().setDefaultButton(btnCancelar);
+			}
+			{
+				btnRegistrar = new JButton("Registrar");
+				btnRegistrar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						Evento eventoAux = new Evento(txtCodigo.getText(), txtNombre.getText(), (Date) spnFecha.getValue(), "12",txtUbicacion.getText(), cbxTipo.getSelectedItem().toString(), txtTema.getText());
+						
+						// Agregar evento
+						CoordinacionEvento.getInstance().getEventos().add(eventoAux);
+						
+			
+						btnRegistrar.setEnabled(false);
+					}
+				});
+				btnRegistrar.setEnabled(false);
+				btnRegistrar.setActionCommand("Cancel");
+				buttonPane.add(btnRegistrar);
 			}
 		}
 	}
@@ -1098,9 +1224,48 @@ public class regEvento extends JDialog {
 		return cantJurados;
 	}
 	
+	public int getcantParticipantes()
+	{
+		int cantParticipantes = 0;
+		for (Persona persona : personas) {
+			if(persona instanceof Participante)
+				cantParticipantes++;
+		}
+		
+		return cantParticipantes;
+	}
+	
+	public int getCantComisiones()
+	{
+		int cantComisiones = 0;
+		for (Comision comision : comisiones) {
+				cantComisiones++;
+		}
+		
+		return cantComisiones;
+	}
+	
+	
+	public void habilitarAgregarRecurso()
+	{
+		
+	}
+	
+	public void habilitarRegistrarEvento()
+	{
+		btnRegistrar.setEnabled(false);
+
+		if(txtNombre.getText().equals("") == false && txtUbicacion.getText().equals("") == false && txtTema.getText().equals("") == false)
+				if(getCantComisiones() != 0) 
+					if(getcantParticipantes() != 0)
+						btnRegistrar.setEnabled(true);
+
+				
+	}
+	
 	public void habilitarAgregarComision()
 	{
-		if(txtModeradorActual.getText().equals("") || getcantJurados() < 2)
+		if(txtModeradorActual.getText().equals("") || getcantJurados() < 3)
 			btnAgregarComison.setEnabled(false);
 		else
 			btnAgregarComison.setEnabled(true);

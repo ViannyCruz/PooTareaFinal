@@ -30,6 +30,7 @@ public class listTrabajoC extends JDialog {
 	private static Object[] rows;
 	private TrabajoCientifico selected = null;
 	private JButton btnRevisado;
+	private JButton btnModificar;
 	/**
 	 * Launch the application.
 	 */
@@ -96,6 +97,22 @@ public class listTrabajoC extends JDialog {
 						dispose();
 					}
 				});
+				{
+					btnModificar = new JButton("Modificar");
+					btnModificar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							
+							
+							
+							
+							
+							
+							
+							
+						}
+					});
+					buttonPane.add(btnModificar);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

@@ -4,15 +4,25 @@ import java.util.ArrayList;
 
 public class Comision {
 
+	private String codigo;
 	private String area;
 	private Persona moderador;
 	private ArrayList<Jurado> jurados;
 	
 	public Comision(String area, Persona moderador) {
 		super();
+		this.codigo = " ";
 		this.area = area;
 		this.moderador = moderador;
 		this.jurados = new ArrayList<>();
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getArea() {

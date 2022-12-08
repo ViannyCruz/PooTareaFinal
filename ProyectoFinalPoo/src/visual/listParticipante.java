@@ -36,6 +36,7 @@ public class listParticipante extends JDialog {
 	private JButton btnRevisado;
 
 	Participante participanteAux =  null;
+	private JButton btnModificar;
 
 	
 	/**
@@ -56,9 +57,7 @@ public class listParticipante extends JDialog {
 	 */
 	public listParticipante() {
 		
-		participanteAux = new Participante("402-1230923-0", "Juan Gomez", "12345678");
-		CoordinacionEvento.getInstance().insertarPersona(participanteAux);
-		
+
 		
 		setTitle("Lista de personas");
 		setBounds(100, 100, 600, 500);
@@ -86,8 +85,10 @@ public class listParticipante extends JDialog {
 							int rowSelected = -1;
 							rowSelected = table.getSelectedRow();
 							if(rowSelected>=0){
-								btnRevisado.setEnabled(true);
-								selected = CoordinacionEvento.getInstance().getPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
+								btnModificar.setEnabled(true);
+								//btnRevisado.setEnabled(true);
+								//selected = CoordinacionEvento.getInstance().getPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
+								selected = CoordinacionEvento.getInstance().getPersonaByCedula(table.getValueAt(table.getSelectedRow(), 0).toString());
 
 							}
 						}
@@ -109,6 +110,20 @@ public class listParticipante extends JDialog {
 						dispose();
 					}
 				});
+				{
+					btnModificar = new JButton("Modificar");
+					btnModificar.setEnabled(false);
+					btnModificar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							
+							modPersona modPersonaAux = new modPersona(selected);
+							modPersonaAux.setModal(true);
+							modPersonaAux.setVisible(true);
+							
+						}
+					});
+					buttonPane.add(btnModificar);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
