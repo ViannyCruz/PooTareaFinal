@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
 import javax.swing.ScrollPaneConstants;
 
 public class listRecursos extends JDialog {
@@ -49,6 +51,15 @@ public class listRecursos extends JDialog {
 	 * Create the dialog.
 	 */
 	public listRecursos() {
+		
+		try {
+			CoordinacionEvento.getInstance().saveRecurso();
+			CoordinacionEvento.getInstance().loadRecurso();
+		} catch (ClassNotFoundException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		setTitle("Lista de Recursos");
 		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());
@@ -107,6 +118,19 @@ public class listRecursos extends JDialog {
 							modRecurso modRecursoAux = new modRecurso(selected);
 							modRecursoAux.setModal(true);
 							modRecursoAux.setVisible(true);
+							
+
+							
+							try {
+								CoordinacionEvento.getInstance().saveRecurso();
+								CoordinacionEvento.getInstance().loadRecurso();
+							} catch (ClassNotFoundException | IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+							
+							dispose();
 						}
 					});
 					buttonPane.add(btnModificar);

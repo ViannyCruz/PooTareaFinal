@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -153,6 +154,7 @@ public class regParticipante extends JDialog {
 			{
 				cancelButton = new JButton("Registrar");
 				cancelButton.addActionListener(new ActionListener() {
+					
 					public void actionPerformed(ActionEvent e) {
 						Persona aux = null;
 
@@ -182,6 +184,22 @@ public class regParticipante extends JDialog {
 						}
 						CoordinacionEvento.getInstance().insertarPersona(aux);
 						clean();
+						
+
+						try {
+							CoordinacionEvento.getInstance().saveParticipante();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						try {
+							CoordinacionEvento.getInstance().loadParticipante();
+						} catch (ClassNotFoundException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

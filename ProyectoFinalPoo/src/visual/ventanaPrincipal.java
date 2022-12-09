@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logico.ControlLogin;
+import logico.CoordinacionEvento;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -46,9 +47,17 @@ public class ventanaPrincipal extends JFrame {
 	 */
 	public ventanaPrincipal() {
 		
+		try {
+			CoordinacionEvento.getInstance().loadParticipante();
+			CoordinacionEvento.getInstance().loadRecurso();
+
+		} catch (ClassNotFoundException | IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 		
-		
+
 		
 		
 		
@@ -103,7 +112,13 @@ public class ventanaPrincipal extends JFrame {
 		mnNewMenu.add(mntmListado);
 		mntmListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listParticipante listPersonas= new listParticipante();
+				listParticipante listPersonas = null;
+				try {
+					listPersonas = new listParticipante();
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				listPersonas.setModal(true);
 				listPersonas.setVisible(true);
 			}

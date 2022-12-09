@@ -38,28 +38,36 @@ public class Main {
 		
 		
 		
-		Participante parti01 = new Participante("1", "Juan", "11");
-		Participante parti02 = new Participante("2", "Tutu", "22");
+		//Participante parti01 = new Participante("1", "Juan", "11");
+		//Participante parti02 = new Participante("2", "Tutu", "22");
 
-		CoordinacionEvento.getInstance().getPersonas().add(parti01);
-		CoordinacionEvento.getInstance().getPersonas().add(parti02);
+		//CoordinacionEvento.getInstance().getPersonas().add(parti01);
+		//CoordinacionEvento.getInstance().getPersonas().add(parti02);
 
-		FileOutputStream fos = new FileOutputStream("myPersons.dat");
+		//CoordinacionEvento.getInstance().saveRecurso();
+		//CoordinacionEvento.getInstance().loadRecurso();
+
+		
+		/*
+		FileOutputStream fos = new FileOutputStream("fgh.dat");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(CoordinacionEvento.getInstance().getPersonas());
 		oos.close();
 		
+		*/
+		
+		/*
 		CoordinacionEvento.getInstance().setPersonas(new ArrayList<>());		
-		FileInputStream fis = new FileInputStream("myPersons.dat");
+		FileInputStream fis = new FileInputStream("azul.dat");
 		ObjectInputStream ois = new ObjectInputStream(fis);		
 		CoordinacionEvento.getInstance().setPersonas((ArrayList<Persona>) ois.readObject());
-
+*/
 		
-		ois.close();
+		//ois.close();
 		
 		
-		System.out.println(CoordinacionEvento.getInstance().getPersonas().get(0).getNombre());
-		System.out.println(CoordinacionEvento.getInstance().getPersonas().get(1).getNombre());
+		//System.out.println(CoordinacionEvento.getInstance().getPersonas().get(0).getNombre());
+		//System.out.println(CoordinacionEvento.getInstance().getPersonas().get(1).getNombre());
 
 		
 	}

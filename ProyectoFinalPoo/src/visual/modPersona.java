@@ -13,9 +13,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.border.TitledBorder;
 
+import logico.CoordinacionEvento;
 import logico.Jurado;
 import logico.Persona;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
@@ -64,12 +66,12 @@ public class modPersona extends JDialog {
 		
 		txtCedula = new JTextField();
 		txtCedula.setColumns(10);
-		txtCedula.setBounds(76, 11, 151, 20);
+		txtCedula.setBounds(91, 11, 147, 20);
 		contentPanel.add(txtCedula);
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(76, 42, 398, 20);
+		txtNombre.setBounds(91, 42, 383, 20);
 		contentPanel.add(txtNombre);
 		
 		JLabel label_1 = new JLabel("Nombre:");
@@ -91,7 +93,7 @@ public class modPersona extends JDialog {
 		
 		cbxEspecialidad = new JComboBox();
 		cbxEspecialidad.setModel(new DefaultComboBoxModel(new String[] {"Matem\u00E1ticas", "F\u00EDsica", "Qu\u00EDmica", "Biolog\u00EDa", "Astronom\u00EDa", "Sociolog\u00EDa", "Ambiental"}));
-		cbxEspecialidad.setBounds(76, 73, 398, 22);
+		cbxEspecialidad.setBounds(91, 73, 383, 22);
 		loadDatos();
 		
 		contentPanel.add(cbxEspecialidad);
@@ -110,9 +112,28 @@ public class modPersona extends JDialog {
 				btnAplicarCambios = new JButton("Aplicar");
 				btnAplicarCambios.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						modificarDatos();
+						try {
+							modificarDatos();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
-						dispose();
+						try {
+							dispose();
+
+							listParticipante listAux = new listParticipante();
+							listAux.setModal(true);
+							listAux.setVisible(true);
+
+						} catch (ClassNotFoundException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 				});
 				btnAplicarCambios.setActionCommand("Cancel");
@@ -139,7 +160,7 @@ public class modPersona extends JDialog {
 			
 	}
 	
-	public void modificarDatos()
+	public void modificarDatos() throws IOException, ClassNotFoundException
 	{
 		personaAux.setCedula(txtCedula.getText());
 		personaAux.setNombre(txtNombre.getText());
@@ -147,6 +168,10 @@ public class modPersona extends JDialog {
 		
 		if(personaAux instanceof Jurado)
 			((Jurado) personaAux).setEspecialidad(cbxEspecialidad.getSelectedItem().toString());
+		
+		CoordinacionEvento.getInstance().saveParticipante();
+		CoordinacionEvento.getInstance().loadParticipante();
+
 	}
 	
 	

@@ -2,6 +2,7 @@ package logico;
 
 import java.io.DataOutput;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -175,75 +176,60 @@ public class CoordinacionEvento {
 	}
 	
 	
-	/*
-	public void save()
+	public void saveParticipante() throws IOException
 	{
-		Recurso tutiRecurso = new Recurso("1234", "tuti", "Bocina");
-
-		try{
-		    FileOutputStream writeData = new FileOutputStream("juan.dat");
-		    ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
-
-		    int size = recursos.size();
-		    for(int i = 0; i < size; i++)
-		    {
-			    writeStream.writeObject(recursos.get(i));
-
-		    	//Recurso recursoAux = (Recurso) readStream.readObject();
-		    	//tusRealesRecursos.add(recursoAux);
-		    	
-		    }
-		    
-		    //writeStream.writeObject(tutiRecurso);
-		    writeStream.flush();
-		    writeStream.close();
-
-		}catch (IOException e) {
-		    e.printStackTrace();
-		}
+		FileOutputStream fos = new FileOutputStream("ParticipantesFile.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(personas);
+		oos.close();
 	}
 	
-	public void take()
+	public void loadParticipante() throws IOException, ClassNotFoundException
 	{
-		try{
-		    FileInputStream f = new FileInputStream("juan.dat");
-		    ObjectInputStream oos = new ObjectInputStream(f);
-
-		    
-		}catch (Exception e)
-		{
-		    e.printStackTrace();
-		}
-	}
-	
-	
-	
-	public void juan() throws IOException, ClassNotFoundException
-	{
-		FileInputStream f = new FileInputStream("juan.dat");
-	    ObjectInputStream oos = new ObjectInputStream(f);
+		FileInputStream fis = new FileInputStream("ParticipantesFile.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);	
+		personas = (ArrayList<Persona>) ois.readObject();
 		
-	
-		int size = oos.readInt();
-		for (int i = 0; i < size; i++)
-		{		
-			Recurso a = (Recurso)oos.readObject();
-		}
-					
+		ois.close();
 	}
+
 	
-	public void juanCarajo() throws IOException, ClassNotFoundException
+	
+	public void saveRecurso() throws IOException
 	{
-		FileInputStream f = new FileInputStream("juan.dat");
-	    ObjectInputStream oos = new ObjectInputStream(f);
-		
-	    ((DataOutput) oos).writeInt(recursos.size());
-		for (Recurso recurso : recursos) {
-			((ObjectOutput) oos).writeObject(recurso);
-		}
-	
-		
-					
+		FileOutputStream fos = new FileOutputStream("RecursosFile.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(recursos);
+		oos.close();
 	}
-	*/
+	
+	public void loadRecurso() throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = new FileInputStream("RecursosFile.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);	
+		recursos = (ArrayList<Recurso>) ois.readObject();
+		
+		ois.close();
+	}
+
+	
+	public void saveEvento() throws IOException
+	{
+		FileOutputStream fos = new FileOutputStream("EventosFile.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(eventos);
+		oos.close();
+	}
+	
+	public void loadEvento() throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = new FileInputStream("EventosFile.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);	
+		eventos = (ArrayList<Evento>) ois.readObject();
+		
+		ois.close();
+	}
+
+
+	
 }

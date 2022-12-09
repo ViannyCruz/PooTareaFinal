@@ -22,6 +22,7 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -56,10 +57,13 @@ public class listParticipante extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public listParticipante() {
-		
-	
+	public listParticipante() throws ClassNotFoundException, IOException {
+		CoordinacionEvento.getInstance().saveParticipante();
+		CoordinacionEvento.getInstance().loadParticipante();
+
 		
 		setTitle("Lista de personas");
 		setBounds(100, 100, 600, 500);
@@ -121,7 +125,8 @@ public class listParticipante extends JDialog {
 							modPersona modPersonaAux = new modPersona(selected);
 							modPersonaAux.setModal(true);
 							modPersonaAux.setVisible(true);
-							
+							dispose();
+
 						}
 					});
 					buttonPane.add(btnModificar);

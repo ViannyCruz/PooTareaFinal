@@ -8,12 +8,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logico.CoordinacionEvento;
 import logico.Recurso;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
@@ -98,8 +100,22 @@ public class modRecurso extends JDialog {
 				btnAplicar = new JButton("Aplicar");
 				btnAplicar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						modificarInformacion();
+						try {
+							modificarInformacion();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						dispose();
+
+						listRecursos listAux = new listRecursos();
+						listAux.setModal(true);
+						listAux.setVisible(true);
+						
 					}
 				});
 				btnAplicar.setActionCommand("Cancel");
@@ -117,9 +133,12 @@ public class modRecurso extends JDialog {
 		cbxTipo.setSelectedItem(recursoAux.getTipo());
 	}
 	
-	public void modificarInformacion()
+	public void modificarInformacion() throws IOException, ClassNotFoundException
 	{
 		recursoAux.setNombre(txtNombre.getText());
 		recursoAux.setTipo(cbxTipo.getSelectedItem().toString());
+		
+		CoordinacionEvento.getInstance().saveParticipante();
+		CoordinacionEvento.getInstance().loadParticipante();
 	}
 }
