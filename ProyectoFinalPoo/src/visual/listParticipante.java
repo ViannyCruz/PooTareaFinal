@@ -21,6 +21,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -57,7 +59,7 @@ public class listParticipante extends JDialog {
 	 */
 	public listParticipante() {
 		
-
+	
 		
 		setTitle("Lista de personas");
 		setBounds(100, 100, 600, 500);
