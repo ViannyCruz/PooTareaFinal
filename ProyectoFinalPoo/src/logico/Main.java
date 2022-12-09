@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
-
+/*
 		Recurso recursi1 = new Recurso("1", "Papo", "Bocina");
 		CoordinacionEvento.getInstance().getRecursos().add(recursi1);
 		Recurso recursi2 = new Recurso("2", "Mario", "Bocina");
@@ -25,7 +25,7 @@ public class Main {
 	    System.out.println(CoordinacionEvento.getInstance().getRecursos().get(0).getNombre());
 	    System.out.println(CoordinacionEvento.getInstance().getRecursos().get(1).getNombre());
 
-		
+		*/
 		// Escribir
 		
 		
