@@ -18,17 +18,15 @@ import logico.Recurso;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class regRecursos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCodigo;
 	private JTextField txtNombre;
+	private JTextField txtTipo;
 	private JButton btnCancelar;
 	private JButton btnRegistrar;
-	private JComboBox cbxTipo;
 
 	/**
 	 * Launch the application.
@@ -112,11 +110,35 @@ public class regRecursos extends JDialog {
 				lblTipo.setBounds(230, 21, 46, 20);
 				panel.add(lblTipo);
 			}
-			
-			cbxTipo = new JComboBox();
-			cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Bocina"}));
-			cbxTipo.setBounds(260, 21, 148, 20);
-			panel.add(cbxTipo);
+			{
+				txtTipo = new JTextField();
+				txtTipo.setBounds(266, 21, 142, 20);
+				panel.add(txtTipo);
+				txtTipo.setColumns(10);
+				txtTipo.getDocument().addDocumentListener(new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						habilitarRegistrar();
+					}
+				});
+
+				
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -140,7 +162,7 @@ public class regRecursos extends JDialog {
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-					Recurso recursoAux = new Recurso(txtCodigo.getText(), txtNombre.getText(), cbxTipo.getSelectedItem().toString());
+					Recurso recursoAux = new Recurso(txtCodigo.getText(), txtNombre.getText(), txtTipo.getText());
 					CoordinacionEvento.getInstance().insertarRecurso(recursoAux);
 					dispose();	
 					
@@ -163,10 +185,13 @@ public class regRecursos extends JDialog {
 	
 	private void habilitarRegistrar() {
 		
-		if(txtNombre.getText().equals(""))
+		if(txtNombre.getText().equals("") || txtTipo.getText().equals(""))
 			btnRegistrar.setEnabled(false);
 		else
 			btnRegistrar.setEnabled(true);
 	
 	}
+	
+	
+	
 }

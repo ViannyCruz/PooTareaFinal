@@ -1,9 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Evento {
+public class Evento implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private String codigo;
 	private String nombre;
@@ -110,5 +113,33 @@ public class Evento {
 		this.recursos = recursos;
 	}
 	
+	public String GetComision()
+	{
+		String aux="";
+		for (Comision comision : comisiones) {
+
+			aux+=comision.getArea()+" : "+comision.getModerador().nombre+" ";
+		}
+		return aux;
+	}
 	
+	public String GetParticipantes()
+	{
+		String aux="";
+		for (Persona participante : participantes) {
+
+			aux+=participante.getNombre()+" : "+participante.getCedula()+" ";
+		}
+		return aux;
+	}
+	
+	public String GetRecursos()
+	{
+		String aux="";
+		for (Recurso recurso : recursos) {
+
+			aux+=recurso.getNombre()+" : "+recurso.getTipo()+" ";
+		}
+		return aux;
+	}
 }

@@ -170,7 +170,19 @@ public class ventanaPrincipal extends JFrame {
 		JMenuItem mntmListadoE = new JMenuItem("Listado");
 		mntmListadoE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				listEvento eventos;
+				try {
+					eventos = new listEvento();
+					eventos.setModal(true);
+				    eventos.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
 			}
 		});
 		mnEventos.add(mntmListadoE);

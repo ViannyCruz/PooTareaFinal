@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logico.ControlLogin;
-import logico.CoordinacionEvento;
 import logico.Usuario;
 
 import javax.swing.JLabel;
