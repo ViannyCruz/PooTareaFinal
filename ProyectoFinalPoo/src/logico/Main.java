@@ -1,8 +1,12 @@
 package logico;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 
 public class Main {
 
@@ -34,13 +38,29 @@ public class Main {
 		
 		
 		
+		Participante parti01 = new Participante("1", "Juan", "11");
+		Participante parti02 = new Participante("2", "Tutu", "22");
+
+		CoordinacionEvento.getInstance().getPersonas().add(parti01);
+		CoordinacionEvento.getInstance().getPersonas().add(parti02);
+
+		FileOutputStream fos = new FileOutputStream("myPersons.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(CoordinacionEvento.getInstance().getPersonas());
+		oos.close();
+		
+		CoordinacionEvento.getInstance().setPersonas(new ArrayList<>());		
+		FileInputStream fis = new FileInputStream("myPersons.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);		
+		CoordinacionEvento.getInstance().setPersonas((ArrayList<Persona>) ois.readObject());
+
+		
+		ois.close();
 		
 		
-		
-		
-		
-		
-		
+		System.out.println(CoordinacionEvento.getInstance().getPersonas().get(0).getNombre());
+		System.out.println(CoordinacionEvento.getInstance().getPersonas().get(1).getNombre());
+
 		
 	}
 

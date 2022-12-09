@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
+
 public class CoordinacionEvento {
 	
 
@@ -29,9 +30,16 @@ public class CoordinacionEvento {
 
 
 
-	
-	
 
+
+	
+	
+	
+	
+	
+	
+	
+	
 	public CoordinacionEvento() {
 		super();
 		this.eventos = new ArrayList<>();
