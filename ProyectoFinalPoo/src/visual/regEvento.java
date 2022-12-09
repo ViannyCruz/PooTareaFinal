@@ -1222,7 +1222,7 @@ public class regEvento extends JDialog {
 			panel.add(rdbtnComision);
 			
 			cbxTipoEvento = new JComboBox();
-			cbxTipoEvento.setModel(new DefaultComboBoxModel(new String[] {"Panel", "Mesa Redonda"}));
+			cbxTipoEvento.setModel(new DefaultComboBoxModel(new String[] {"Paneles", "", "Ponencias", "", "Poster", "", "Mesa Redonda"}));
 			cbxTipoEvento.setBounds(70, 68, 163, 20);
 			panel.add(cbxTipoEvento);
 		}
