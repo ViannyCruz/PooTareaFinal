@@ -2,7 +2,8 @@ package logico;
 
 import java.util.ArrayList;
 
-public class Participante extends Persona {
+public class Participante extends Persona  {
+
 
 	private ArrayList<TrabajoCientifico> trabajos;
 

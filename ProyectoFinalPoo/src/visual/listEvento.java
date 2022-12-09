@@ -41,6 +41,7 @@ public class listEvento extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		try {
 			listEvento dialog = new listEvento();
@@ -50,15 +51,18 @@ public class listEvento extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+*/
 	/**
 	 * Create the dialog.
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	public listEvento() throws IOException, ClassNotFoundException {
-		CoordinacionEvento.getInstance().loadEvento();
-		CoordinacionEvento.getInstance().saveEvento();
+	public listEvento()   {
+		
+			//CoordinacionEvento.getInstance().loadEvento();
+			//CoordinacionEvento.getInstance().saveEvento();
+
+		
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
