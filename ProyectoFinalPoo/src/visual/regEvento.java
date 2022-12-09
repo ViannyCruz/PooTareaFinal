@@ -150,8 +150,10 @@ public class regEvento extends JDialog {
 			panel.add(lblNewLabel_1);
 			
 			txtCodigo = new JTextField();
+			txtCodigo.setEditable(false);
 			txtCodigo.setBounds(70, 8, 163, 20);
 			panel.add(txtCodigo);
+			txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
 			txtCodigo.setColumns(10);
 			
 			txtNombre = new JTextField();
@@ -1201,7 +1203,7 @@ public class regEvento extends JDialog {
 						
 						// Agregar evento
 						CoordinacionEvento.getInstance().getEventos().add(eventoAux);
-						
+						clean();
 			
 						btnRegistrar.setEnabled(false);
 					}
@@ -1328,5 +1330,14 @@ public class regEvento extends JDialog {
 		if(persona instanceof Jurado)
 			cbxEspecialidad.setSelectedItem(((Jurado) persona).getEspecialidad());
 		
+	}
+	
+	private void clean() {
+		txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
+		txtNombre.setText("");
+		cbxTipo.setSelectedIndex(0);
+		txtTema.setText("");
+		txtUbicacion.setText("");
+	
 	}
 }
