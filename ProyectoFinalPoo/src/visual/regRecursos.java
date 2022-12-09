@@ -65,6 +65,7 @@ public class regRecursos extends JDialog {
 			txtCodigo = new JTextField();
 			txtCodigo.setEditable(false);
 			txtCodigo.setBounds(66, 21, 142, 20);
+			txtCodigo.setText("Recurso-"+String.valueOf(CoordinacionEvento.genCodeRecurso));
 			panel.add(txtCodigo);
 			txtCodigo.setColumns(10);
 			{

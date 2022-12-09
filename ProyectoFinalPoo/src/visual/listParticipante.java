@@ -152,6 +152,7 @@ public class listParticipante extends JDialog {
 				rows[1]	= persona.getNombre();
 				rows[2] = persona.getNumero();	
 				rows[3] = ((Jurado) persona).getEspecialidad();
+				rows[4] = "";
 				model.addRow(rows);
 			}
 			if(persona instanceof Participante)

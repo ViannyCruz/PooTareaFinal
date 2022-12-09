@@ -51,6 +51,7 @@ public class modRecurso extends JDialog {
 		setBounds(100, 100, 432, 164);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
@@ -78,7 +79,7 @@ public class modRecurso extends JDialog {
 		contentPanel.add(label_2);
 		
 		cbxTipo = new JComboBox();
-		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Bocina"}));
+		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Local", "Audiovisual"}));
 		cbxTipo.setBounds(263, 11, 145, 20);
 		contentPanel.add(cbxTipo);
 		{

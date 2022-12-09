@@ -57,6 +57,7 @@ public class modPersona extends JDialog {
 		setBounds(100, 100, 500, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
@@ -104,6 +105,11 @@ public class modPersona extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancelar.setActionCommand("OK");
 				buttonPane.add(btnCancelar);
 				getRootPane().setDefaultButton(btnCancelar);
