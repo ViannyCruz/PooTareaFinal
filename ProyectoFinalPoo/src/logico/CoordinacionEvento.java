@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,11 +29,11 @@ public class CoordinacionEvento {
 	public static int genCodePersona = 1;
 	public static int genCodeTrabajo = 1;
 	public static int genCodeRecurso = 1;
+	
 
 
-
-
-
+	
+	
 	
 	
 	
@@ -231,5 +232,24 @@ public class CoordinacionEvento {
 	}
 
 
+	
+	
+	
+	public void saveTC() throws IOException
+	{
+		FileOutputStream fos = new FileOutputStream("TrabajosFile.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(trabajosCientificos);
+		oos.close();
+	}
+	
+	public void loadTC() throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = new FileInputStream("TrabajosFile.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);	
+		trabajosCientificos = (ArrayList<TrabajoCientifico>) ois.readObject();
+		
+		ois.close();
+	}
 	
 }

@@ -34,6 +34,7 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
@@ -129,6 +130,7 @@ public class regEvento extends JDialog {
 	 * Create the dialog.
 	 */
 	public regEvento() {
+	
 		
 		setBounds(100, 100, 530, 700);
 		getContentPane().setLayout(new BorderLayout());
@@ -360,6 +362,7 @@ public class regEvento extends JDialog {
 					habilitarAgregarComision();
 
 					Jurado nuevoJurado = null;
+					
 					int existe = 0;
 					
 					// Ya tengo un jurado
@@ -462,6 +465,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 					
 				}
 				
@@ -470,6 +474,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 
 
 				}
@@ -479,6 +484,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 
 
 				}
@@ -499,6 +505,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 
 
 				}
@@ -508,6 +515,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 
 
 				}
@@ -517,6 +525,7 @@ public class regEvento extends JDialog {
 					// TODO Auto-generated method stub
 					habilitar();
 					habilitarAgregarComision();
+					habilitarAgregarRecurso();
 
 
 				}
@@ -763,6 +772,16 @@ public class regEvento extends JDialog {
 							
 								modelListParticipantesAct.addElement(participanteAux.getCedula());
 								personas.add(participanteAux);
+								/*
+								CoordinacionEvento.getInstance().getPersonas().add(participanteAux);
+								
+								try {
+									CoordinacionEvento.getInstance().saveParticipante();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+*/
 								participanteAux = null;
 							}
 							
@@ -784,6 +803,15 @@ public class regEvento extends JDialog {
 								participanteAux = new Participante(txtCedula.getText(), txtNombreDos.getText(), txtTelefono.getText());
 								modelListParticipantesAct.addElement(participanteAux.getCedula());
 								CoordinacionEvento.getInstance().getPersonas().add(participanteAux);
+								
+								
+								try {
+									CoordinacionEvento.getInstance().saveParticipante();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
 								personas.add(participanteAux);
 								participanteAux =  null;
 							}
@@ -836,6 +864,7 @@ public class regEvento extends JDialog {
 
 			
 			btnAgregarRecurso = new JButton("Agregar Recurso");
+			btnAgregarRecurso.setEnabled(false);
 			btnAgregarRecurso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
@@ -877,6 +906,14 @@ public class regEvento extends JDialog {
 							modelListRecursosAct.addElement(recursoAux.getCodigo());
 							CoordinacionEvento.getInstance().getRecursos().add(recursoAux);
 							recursos.add(recursoAux);
+							
+							
+							try {
+								CoordinacionEvento.getInstance().saveParticipante();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							recursoAux =  null;
 						}
 						
@@ -981,6 +1018,7 @@ public class regEvento extends JDialog {
 					if(persona instanceof Jurado)
 					{
 						jurados.add((Jurado) persona);
+						
 						modelListJuradosAct.removeElement(persona.getCedula());
 					}
 				}
@@ -1086,8 +1124,8 @@ public class regEvento extends JDialog {
 					btnAgregarParticipante.setVisible(true);
 					btnEliminarParticipante.setVisible(true);
 					
-					btnAgregarRecurso.setVisible(true);
-					btnEliminarRecurso.setVisible(true);
+					btnAgregarRecurso.setVisible(false);
+					btnEliminarRecurso.setVisible(false);
 			
 					btnAgregar.setVisible(false);
 					btnEliminar.setVisible(false);
@@ -1200,9 +1238,25 @@ public class regEvento extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						
 						Evento eventoAux = new Evento(txtCodigo.getText(), txtNombre.getText(), (Date) spnFecha.getValue(), "12",txtUbicacion.getText(), cbxTipo.getSelectedItem().toString(), txtTema.getText());
-						
-						// Agregar evento
 						CoordinacionEvento.getInstance().getEventos().add(eventoAux);
+
+						try {
+							CoordinacionEvento.getInstance().saveEvento();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						try {
+							CoordinacionEvento.getInstance().loadEvento();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 						clean();
 			
 						btnRegistrar.setEnabled(false);
@@ -1250,7 +1304,11 @@ public class regEvento extends JDialog {
 	
 	public void habilitarAgregarRecurso()
 	{
-		
+		if(txtNombreDos.getText().equals("") || txtCedula.getText().equals(""))
+			btnAgregarRecurso.setEnabled(false);
+		else
+			btnAgregarRecurso.setEnabled(true);
+
 	}
 	
 	public void habilitarRegistrarEvento()
@@ -1281,7 +1339,7 @@ public class regEvento extends JDialog {
 			btnAgregarComoModerador.setEnabled(false);
 			
 			btnAgregarParticipante.setEnabled(false);
-			btnAgregarRecurso.setEnabled(false);
+			//btnAgregarRecurso.setEnabled(false);
 		}
 		else
 		{
@@ -1289,7 +1347,7 @@ public class regEvento extends JDialog {
 			{
 				btnAgregar.setEnabled(true);
 				btnAgregarParticipante.setEnabled(true);
-				btnAgregarRecurso.setEnabled(true);
+				//btnAgregarRecurso.setEnabled(true);
 			}
 			
 			if(juradoAux != null)
@@ -1333,7 +1391,7 @@ public class regEvento extends JDialog {
 	}
 	
 	private void clean() {
-		txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
+		txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeEvento));
 		txtNombre.setText("");
 		cbxTipo.setSelectedIndex(0);
 		txtTema.setText("");

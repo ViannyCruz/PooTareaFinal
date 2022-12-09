@@ -30,12 +30,12 @@ public class regParticipante extends JDialog {
 	private JTextField txtCedula;
 	private JTextField txtTelefono;
 	private JTextField txtNombre;
-	private JButton cancelButton;
 	private JButton okButton;
 	private JRadioButton rdbtnJurado;
 	private JRadioButton rdbtnParticipante;
 	private JLabel lblNewLabel_4;
 	private JComboBox cbxEspecialidad;
+	private JButton cancelButton;
 
 	/**
 	 * Launch the application.
@@ -158,6 +158,7 @@ public class regParticipante extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Persona aux = null;
 
+						
 						String cedula = txtCedula.getText();
 						String nombre = txtNombre.getText();
 						String telefono = txtTelefono.getText();
@@ -169,7 +170,7 @@ public class regParticipante extends JDialog {
 							aux = new Jurado (cedula, nombre, telefono, especialidad);
 							JOptionPane.showMessageDialog(null, "Jurado creado con exito!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 						}
-						if(rdbtnParticipante.isSelected())
+						else if(rdbtnParticipante.isSelected())
 						{
 							aux = new Participante (cedula, nombre, telefono);
 							int option;

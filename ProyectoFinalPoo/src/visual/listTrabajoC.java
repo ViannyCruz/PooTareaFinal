@@ -19,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -48,6 +49,16 @@ public class listTrabajoC extends JDialog {
 	 * Create the dialog.
 	 */
 	public listTrabajoC() {
+		try {
+			CoordinacionEvento.getInstance().loadTC();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		setTitle("Lista de Trabajos Cientificos");
 		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());
@@ -61,7 +72,7 @@ public class listTrabajoC extends JDialog {
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				model = new DefaultTableModel();
-				String[] columnas = {"Codigo", "Nombre", "Fecha"};
+				String[] columnas = {"Codigo", "Nombre"};
 				model.setColumnIdentifiers(columnas);
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -138,7 +149,7 @@ public class listTrabajoC extends JDialog {
 
 			rows[0] = trabajos.getCodigo();
 			rows[1]	= trabajos.getNombre();
-			rows[2] = trabajos.getFecha();	
+			//rows[2] = trabajos.getFecha();	
 			model.addRow(rows);
 		}
 

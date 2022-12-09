@@ -7,6 +7,8 @@ public class Comision implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	private String codigoEvento;
+
 	private String codigo;
 	private String area;
 	private Persona moderador;
@@ -52,4 +54,12 @@ public class Comision implements Serializable{
 		this.jurados = jurados;
 	}
 	
+	public String getCodigoEvento() {
+		return codigoEvento;
+	}
+
+	public void setCodigoEvento(String codigoEvento) {
+		this.codigoEvento = codigoEvento;
+	}
+
 }

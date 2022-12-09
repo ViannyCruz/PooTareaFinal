@@ -11,6 +11,9 @@ public class Recurso implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private String codigoEvento;
+
+
 	private String codigo;
 	private String nombre;
 	private String tipo;
@@ -48,6 +51,13 @@ public class Recurso implements Serializable {
 		this.codigo = codigo;
 	}
 	
+	public String getCodigoEvento() {
+		return codigoEvento;
+	}
+
+	public void setCodigoEvento(String codigoEvento) {
+		this.codigoEvento = codigoEvento;
+	}
 
 	
 	

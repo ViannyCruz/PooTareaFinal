@@ -159,6 +159,8 @@ public class listParticipante extends JDialog {
 				rows[0] = persona.getCedula();
 				rows[1]	= persona.getNombre();
 				rows[2] = persona.getNumero();	
+				rows[3] = "";	
+
 				rows[4] = ((Participante) persona).GetCodTrabajo();
 				model.addRow(rows);
 			}

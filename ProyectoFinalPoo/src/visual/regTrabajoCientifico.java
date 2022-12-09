@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -54,6 +55,9 @@ public class regTrabajoCientifico extends JDialog {
 	 * Create the dialog.
 	 */
 	public regTrabajoCientifico(Persona aux) {
+		
+		
+
 		pers = aux;
 		setTitle("Registrar Trabajo");
 		setBounds(100, 100, 500, 300);
@@ -161,6 +165,25 @@ public class regTrabajoCientifico extends JDialog {
 						TrabajoCientifico auxT = new TrabajoCientifico(codigo, nombre, fech);
 						
 						CoordinacionEvento.getInstance().insertarTrabajo(auxT);
+						
+						try {
+							CoordinacionEvento.getInstance().saveTC();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						
+						try {
+							CoordinacionEvento.getInstance().loadTC();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 						if(pers!=null)
 						{
 							((Participante) pers).insertarTrabajo(auxT);

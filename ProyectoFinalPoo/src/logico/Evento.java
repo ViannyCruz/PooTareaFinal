@@ -15,9 +15,12 @@ public class Evento implements Serializable{
 	private String ubicacion;
 	private String tipo;
 	private String tema;
+	
+	/*
 	private ArrayList<Comision> comisiones;
 	private ArrayList<Persona> participantes;
 	private ArrayList<Recurso> recursos;
+	*/
 	
 	public Evento(String codigo, String nombre, Date fecha, String hora, String ubicacion, String tipo, String tema) {
 		super();
@@ -28,9 +31,11 @@ public class Evento implements Serializable{
 		this.ubicacion = ubicacion;
 		this.tipo = tipo;
 		this.tema = tema;
+		/*
 		this.comisiones = new ArrayList<>();
 		this.participantes = new ArrayList<>();
 		this.recursos = new ArrayList<>();
+		*/
 	}
 
 	public String getCodigo() {
@@ -89,6 +94,7 @@ public class Evento implements Serializable{
 		this.tema = tema;
 	}
 
+	/*
 	public ArrayList<Comision> getComisiones() {
 		return comisiones;
 	}
@@ -141,5 +147,5 @@ public class Evento implements Serializable{
 			aux+=recurso.getNombre()+" : "+recurso.getTipo()+" ";
 		}
 		return aux;
-	}
+	}*/
 }

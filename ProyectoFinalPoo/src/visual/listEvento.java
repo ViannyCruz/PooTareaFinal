@@ -58,11 +58,18 @@ public class listEvento extends JDialog {
 	 * @throws ClassNotFoundException 
 	 */
 	public listEvento()   {
+	
 		
-			//CoordinacionEvento.getInstance().loadEvento();
-			//CoordinacionEvento.getInstance().saveEvento();
+		try {
 
+			CoordinacionEvento.getInstance().loadEvento();
+		} catch (ClassNotFoundException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
+
+
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -71,7 +78,7 @@ public class listEvento extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			model = new DefaultTableModel();
-			String[] columnas = {"Codigo", "Nombre", "Tema", "Ubicacion", "Comision", "Participantes", "Recursos"};
+			String[] columnas = {"Codigo", "Nombre", "Tema", "Ubicacion"};
 			model.setColumnIdentifiers(columnas);
 			JPanel panel = new JPanel();
 			contentPanel.add(panel, BorderLayout.CENTER);
@@ -87,7 +94,7 @@ public class listEvento extends JDialog {
 							int rowSelected = -1;
 							rowSelected = table.getSelectedRow();
 							if(rowSelected>=0){
-								btnRevisado.setEnabled(true);
+								//btnRevisado.setEnabled(true);
 								selected = CoordinacionEvento.getInstance().getEventoByCode(table.getValueAt(rowSelected, 0).toString());
 
 							}
@@ -115,6 +122,7 @@ public class listEvento extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadPersonas();
 	}
 	
 	public static void loadPersonas() {
@@ -126,9 +134,11 @@ public class listEvento extends JDialog {
 				rows[1]	= evento.getNombre();
 				rows[2] = evento.getTema();	
 				rows[3] = evento.getUbicacion();
+				/*
 				rows[4] = evento.GetComision();
 				rows[5] = evento.GetParticipantes();
 				rows[6] = evento.GetRecursos();
+				*/
 				model.addRow(rows);
 		
 

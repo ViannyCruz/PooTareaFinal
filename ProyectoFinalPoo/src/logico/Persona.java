@@ -9,6 +9,9 @@ public class Persona implements Serializable{
 	protected String nombre;
 	protected String numero;
 	
+	
+	private String codigoEvento;
+	
 	public Persona(String cedula, String nombre, String numero) {
 		super();
 		this.cedula = cedula;
@@ -40,6 +43,13 @@ public class Persona implements Serializable{
 		this.numero = numero;
 	}
 	
-	
+	public String getCodigoEvento() {
+		return codigoEvento;
+	}
+
+	public void setCodigoEvento(String codigoEvento) {
+		this.codigoEvento = codigoEvento;
+	}
+
 	
 }
