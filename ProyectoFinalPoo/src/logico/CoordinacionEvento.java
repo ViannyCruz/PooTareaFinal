@@ -1,12 +1,23 @@
 package logico;
 
+import java.io.DataOutput;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+
 public class CoordinacionEvento {
+	
+
 	
 	private ArrayList<Evento> eventos;
 	private ArrayList<Persona> personas;
 	private ArrayList<TrabajoCientifico> trabajosCientificos;
+	
 	private ArrayList<Recurso> recursos;
 	
 	private static CoordinacionEvento coordinacionEventos = null;
@@ -17,6 +28,9 @@ public class CoordinacionEvento {
 	public static int genCodeRecurso = 1;
 
 
+
+	
+	
 
 	public CoordinacionEvento() {
 		super();
@@ -153,4 +167,75 @@ public class CoordinacionEvento {
 	}
 	
 	
+	/*
+	public void save()
+	{
+		Recurso tutiRecurso = new Recurso("1234", "tuti", "Bocina");
+
+		try{
+		    FileOutputStream writeData = new FileOutputStream("juan.dat");
+		    ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+		    int size = recursos.size();
+		    for(int i = 0; i < size; i++)
+		    {
+			    writeStream.writeObject(recursos.get(i));
+
+		    	//Recurso recursoAux = (Recurso) readStream.readObject();
+		    	//tusRealesRecursos.add(recursoAux);
+		    	
+		    }
+		    
+		    //writeStream.writeObject(tutiRecurso);
+		    writeStream.flush();
+		    writeStream.close();
+
+		}catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	public void take()
+	{
+		try{
+		    FileInputStream f = new FileInputStream("juan.dat");
+		    ObjectInputStream oos = new ObjectInputStream(f);
+
+		    
+		}catch (Exception e)
+		{
+		    e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public void juan() throws IOException, ClassNotFoundException
+	{
+		FileInputStream f = new FileInputStream("juan.dat");
+	    ObjectInputStream oos = new ObjectInputStream(f);
+		
+	
+		int size = oos.readInt();
+		for (int i = 0; i < size; i++)
+		{		
+			Recurso a = (Recurso)oos.readObject();
+		}
+					
+	}
+	
+	public void juanCarajo() throws IOException, ClassNotFoundException
+	{
+		FileInputStream f = new FileInputStream("juan.dat");
+	    ObjectInputStream oos = new ObjectInputStream(f);
+		
+	    ((DataOutput) oos).writeInt(recursos.size());
+		for (Recurso recurso : recursos) {
+			((ObjectOutput) oos).writeObject(recurso);
+		}
+	
+		
+					
+	}
+	*/
 }

@@ -1,10 +1,24 @@
 package logico;
 
-public class Recurso {
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
+public class Recurso implements Serializable {
+	
+
+	
+	private static final long serialVersionUID = 1L;
+	
 	private String codigo;
 	private String nombre;
 	private String tipo;
+	
+	
+	
+
+	
 	
 	public Recurso(String codigo, String nombre, String tipo) {
 		super();
@@ -33,5 +47,8 @@ public class Recurso {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+	
+
+	
 	
 }

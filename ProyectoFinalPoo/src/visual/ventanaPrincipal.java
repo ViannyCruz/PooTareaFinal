@@ -45,6 +45,17 @@ public class ventanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public ventanaPrincipal() {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream coordinacionEvento2;
