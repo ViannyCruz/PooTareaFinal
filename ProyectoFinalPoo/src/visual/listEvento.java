@@ -61,13 +61,14 @@ public class listEvento extends JDialog {
 	
 		
 		try {
+			//CoordinacionEvento.getInstance().saveEvento();
 
 			CoordinacionEvento.getInstance().loadEvento();
 		} catch (ClassNotFoundException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 
 
 		
@@ -96,7 +97,10 @@ public class listEvento extends JDialog {
 							if(rowSelected>=0){
 								//btnRevisado.setEnabled(true);
 								selected = CoordinacionEvento.getInstance().getEventoByCode(table.getValueAt(rowSelected, 0).toString());
-
+								
+								
+								
+								
 							}
 						}
 					});
@@ -126,6 +130,15 @@ public class listEvento extends JDialog {
 	}
 	
 	public static void loadPersonas() {
+		try {
+			//CoordinacionEvento.getInstance().saveEvento();
+
+			CoordinacionEvento.getInstance().loadEvento();
+		} catch (ClassNotFoundException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
 		for (Evento evento :  CoordinacionEvento.getInstance().getEventos()) 

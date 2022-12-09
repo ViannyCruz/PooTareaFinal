@@ -30,13 +30,20 @@ public class Main {
 	    System.out.println(CoordinacionEvento.getInstance().getRecursos().get(1).getNombre());
 
 		*/
-		// Escribir
+		// Escribir		
 		
 		
 		
 		
+		CoordinacionEvento.getInstance().loadTutu();
+		
+		CoordinacionEvento.getInstance().setTutu(CoordinacionEvento.getInstance().getTutu() + 1);
+		System.out.println(CoordinacionEvento.getInstance().getTutu());
+
 		
 		
+		CoordinacionEvento.getInstance().saveTutu();
+
 		
 		//Participante parti01 = new Participante("1", "Juan", "11");
 		//Participante parti02 = new Participante("2", "Tutu", "22");

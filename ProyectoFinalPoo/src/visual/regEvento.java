@@ -155,7 +155,14 @@ public class regEvento extends JDialog {
 			txtCodigo.setEditable(false);
 			txtCodigo.setBounds(70, 8, 163, 20);
 			panel.add(txtCodigo);
-			txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeTrabajo));
+			
+			try {
+				CoordinacionEvento.getInstance().loadTutu();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.getInstance().getTutu()));
 			txtCodigo.setColumns(10);
 			
 			txtNombre = new JTextField();
@@ -1010,6 +1017,8 @@ public class regEvento extends JDialog {
 					
 				//Agregar comision
 				Comision comisionAux = new Comision(cbxArea.getSelectedItem().toString(), moderador);
+				comisionAux.setCodigoEvento(txtCodigo.getText());
+
 				comisiones.add(comisionAux);
 				
 				ArrayList<Jurado> jurados =  new ArrayList<>();
@@ -1025,6 +1034,7 @@ public class regEvento extends JDialog {
 				
 				comisionAux.setJurados(jurados);
 				habilitarAgregarComision();
+				CoordinacionEvento.getInstance().getComsiones().add(comisionAux);
 				moderador = null;
 				clearComision();	
 				btnAgregarComison.setEnabled(false);
@@ -1240,6 +1250,7 @@ public class regEvento extends JDialog {
 						Evento eventoAux = new Evento(txtCodigo.getText(), txtNombre.getText(), (Date) spnFecha.getValue(), "12",txtUbicacion.getText(), cbxTipo.getSelectedItem().toString(), txtTema.getText());
 						CoordinacionEvento.getInstance().getEventos().add(eventoAux);
 
+						
 						try {
 							CoordinacionEvento.getInstance().saveEvento();
 						} catch (IOException e1) {
@@ -1247,15 +1258,11 @@ public class regEvento extends JDialog {
 							e1.printStackTrace();
 						}
 
-						try {
-							CoordinacionEvento.getInstance().loadEvento();
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						
+						
+						
+						
+						
 
 						clean();
 			
@@ -1391,7 +1398,28 @@ public class regEvento extends JDialog {
 	}
 	
 	private void clean() {
-		txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.genCodeEvento));
+		try {
+			CoordinacionEvento.getInstance().loadTutu();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		CoordinacionEvento.getInstance().setTutu(CoordinacionEvento.getInstance().getTutu() + 1);
+		txtCodigo.setText("Evento-"+String.valueOf(CoordinacionEvento.getInstance().getTutu()));
+
+		try {
+			CoordinacionEvento.getInstance().saveTutu();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		
+		
+		
+		
 		txtNombre.setText("");
 		cbxTipo.setSelectedIndex(0);
 		txtTema.setText("");

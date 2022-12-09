@@ -22,7 +22,17 @@ public class CoordinacionEvento {
 	private ArrayList<TrabajoCientifico> trabajosCientificos;
 	
 	private ArrayList<Recurso> recursos;
+	private ArrayList<Comision> comsiones;
+
 	
+	public ArrayList<Comision> getComsiones() {
+		return comsiones;
+	}
+
+	public void setComsiones(ArrayList<Comision> comsiones) {
+		this.comsiones = comsiones;
+	}
+
 	private static CoordinacionEvento coordinacionEventos = null;
 	
 	public static int genCodeEvento = 1;
@@ -31,23 +41,48 @@ public class CoordinacionEvento {
 	public static int genCodeRecurso = 1;
 	
 
+	private int tutu;
+	
+	
+	
+	
+	public void saveTutu() throws IOException
+	{
+		FileOutputStream fos = new FileOutputStream("elEntero.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(tutu);
+		oos.close();
+	}
+	
+	public void loadTutu() throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = new FileInputStream("elEntero.dat");
+		ObjectInputStream ois = new ObjectInputStream(fis);	
+		tutu =  (int) ois.readObject();
+		
+		ois.close();
+	}
+	
+	
+	
+	
+	
+	
+	public int getTutu() {
+		return tutu;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void setTutu(int tutu) {
+		this.tutu = tutu;
+	}
+
 	public CoordinacionEvento() {
 		super();
 		this.eventos = new ArrayList<>();
 		this.personas = new ArrayList<>();
 		this.trabajosCientificos =new ArrayList<>();
 		this.recursos = new ArrayList<>();
+		this.comsiones = new ArrayList<>();
 	}
 
 	public static CoordinacionEvento getInstance(){
